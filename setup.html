@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Setup | Ten Years of Baba</title>
+  <meta name="robots" content="noindex" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Patrick+Hand&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #1c1f2e;
+      --navy: #262b47;
+      --navy-deep: #1e2238;
+      --paper: #f4f5f7;
+      --accent: #e8643c;
+      --teal: #bfe9e2;
+      --gold: #f2b441;
+      --line: rgba(217, 236, 242, 0.18);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: radial-gradient(ellipse at 50% 0%, #2e3457 0%, var(--navy) 55%, var(--navy-deep) 100%) fixed;
+      color: #d9ecf2;
+      font-family: "Space Grotesk", sans-serif;
+      min-height: 100vh;
+      padding-bottom: 120px;
+    }
+    a { color: var(--teal); }
+    .wrap { max-width: 1060px; margin: 0 auto; padding: 28px 20px; }
+
+    header.top { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 8px; }
+    h1 { font-family: "Archivo Black", sans-serif; font-size: clamp(1.6rem, 4vw, 2.4rem); color: var(--gold); }
+    .top .back { font-size: 0.85rem; letter-spacing: 0.08em; text-transform: uppercase; }
+    p.lead { color: rgba(217,236,242,0.75); margin-bottom: 26px; max-width: 760px; line-height: 1.5; }
+    p.lead code { background: rgba(217,236,242,0.12); padding: 1px 6px; border-radius: 3px; font-size: 0.9em; }
+
+    /* year section */
+    .year-sec {
+      background: rgba(13, 16, 32, 0.35);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 18px;
+      margin-bottom: 22px;
+    }
+    .year-head { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 14px; }
+    .year-head .ynum {
+      font-family: "Archivo Black", sans-serif;
+      font-size: 1.9rem; color: var(--teal); min-width: 110px;
+    }
+    .year-head input {
+      background: rgba(217,236,242,0.07);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      color: #d9ecf2;
+      font: 500 0.95rem "Space Grotesk", sans-serif;
+      padding: 8px 10px;
+    }
+    .year-head input.f-label { width: 150px; }
+    .year-head input.f-title { flex: 1; min-width: 180px; }
+    .year-head input:focus { outline: 1px solid var(--gold); }
+
+    .panels { display: grid; grid-template-columns: repeat(auto-fill, minmax(228px, 1fr)); gap: 14px; }
+
+    .pcard {
+      background: rgba(217,236,242,0.05);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 10px;
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .drop {
+      position: relative;
+      aspect-ratio: 4 / 3;
+      border: 2px dashed rgba(217,236,242,0.35);
+      border-radius: 6px;
+      overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center;
+      font-size: 0.78rem; color: rgba(217,236,242,0.6);
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      background: rgba(0,0,0,0.18);
+    }
+    .drop.over { border-color: var(--gold); background: rgba(242,180,65,0.12); }
+    .drop img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .drop .hint { position: relative; z-index: 1; padding: 8px; pointer-events: none; }
+    .drop.has-img .hint { background: rgba(13,16,32,0.7); border-radius: 4px; opacity: 0; transition: opacity 0.2s; }
+    .drop.has-img:hover .hint { opacity: 1; }
+    .pcard textarea {
+      background: rgba(217,236,242,0.07);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      color: #d9ecf2;
+      font: 400 0.92rem "Patrick Hand", cursive;
+      padding: 7px 9px;
+      resize: vertical;
+      min-height: 52px;
+    }
+    .pcard textarea:focus { outline: 1px solid var(--gold); }
+    .prow { display: flex; gap: 6px; align-items: center; }
+    .prow select {
+      flex: 1;
+      background: #2b3050;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      color: #d9ecf2;
+      font: 400 0.8rem "Space Grotesk", sans-serif;
+      padding: 5px 6px;
+    }
+    .pbtn {
+      background: rgba(217,236,242,0.08);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      color: #d9ecf2;
+      width: 30px; height: 30px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      line-height: 1;
+    }
+    .pbtn:hover { background: rgba(217,236,242,0.2); }
+    .pbtn.del:hover { background: #a3402a; border-color: #a3402a; }
+    .ppath { font-family: monospace; font-size: 0.68rem; color: rgba(217,236,242,0.45); word-break: break-all; }
+
+    .add-zone {
+      border: 2px dashed rgba(217,236,242,0.3);
+      border-radius: 8px;
+      min-height: 120px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+      color: rgba(217,236,242,0.6);
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      padding: 12px;
+      text-align: center;
+    }
+    .add-zone.over { border-color: var(--gold); background: rgba(242,180,65,0.1); }
+    .add-zone b { color: var(--teal); }
+
+    /* action bar */
+    .bar {
+      position: fixed; bottom: 0; left: 0; right: 0;
+      background: rgba(13, 16, 32, 0.92);
+      border-top: 1px solid var(--line);
+      backdrop-filter: blur(8px);
+      padding: 12px 20px;
+      display: flex; gap: 12px; align-items: center; justify-content: center; flex-wrap: wrap;
+      z-index: 10;
+    }
+    .btn {
+      font: 700 0.85rem "Space Grotesk", sans-serif;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      border-radius: 8px;
+      padding: 12px 22px;
+      cursor: pointer;
+      border: 1px solid transparent;
+    }
+    .btn.primary { background: var(--gold); color: var(--ink); }
+    .btn.primary:hover { filter: brightness(1.08); }
+    .btn.ghost { background: transparent; color: #d9ecf2; border-color: rgba(217,236,242,0.4); }
+    .btn.ghost:hover { background: rgba(217,236,242,0.1); }
+    #status { font-size: 0.85rem; color: var(--teal); min-width: 200px; text-align: center; }
+    #status.err { color: #ff9b7a; }
+
+    /* cloud settings */
+    details.cloud {
+      background: rgba(13, 16, 32, 0.45);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 14px 18px;
+      margin-bottom: 26px;
+    }
+    details.cloud summary { cursor: pointer; font-weight: 700; color: var(--gold); letter-spacing: 0.02em; }
+    .cloud-note { font-size: 0.85rem; color: rgba(217,236,242,0.75); line-height: 1.5; margin: 12px 0; max-width: 760px; }
+    .cloud-note code { background: rgba(217,236,242,0.12); padding: 1px 5px; border-radius: 3px; }
+    .cloud-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px; }
+    .cloud-grid label { display: flex; flex-direction: column; gap: 4px; font-size: 0.78rem; color: rgba(217,236,242,0.65); }
+    .cloud-grid input {
+      background: rgba(217,236,242,0.07);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      color: #d9ecf2;
+      font: 500 0.9rem "Space Grotesk", sans-serif;
+      padding: 8px 10px;
+    }
+    .cloud-grid input:focus { outline: 1px solid var(--gold); }
+    .cloud-remember { display: inline-flex; gap: 7px; align-items: center; margin-top: 10px; font-size: 0.8rem; color: rgba(217,236,242,0.65); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="top">
+      <h1>Ten Years of Baba — Setup</h1>
+      <a class="back" href="index.html">&larr; view the site</a>
+    </header>
+    <p class="lead">
+      Drag photos onto a year (multiple at once works) or onto a single slot to replace it, write the speech-bubble
+      text under each photo, then hit <b>Save to site folder</b> and pick the <code>baba-ten</code> folder —
+      the photos are auto-cropped to 4:3, shrunk if too big, written into <code>photos/</code>, and
+      <code>content.json</code> is generated for you.
+    </p>
+    <details class="cloud" id="cloudBox">
+      <summary>&#9729;&#65039; Cloud setup — auto-update the live site (Vercel + GitHub)</summary>
+      <p class="cloud-note">
+        When the site is hosted on Vercel from a GitHub repo, saving here commits the photos and
+        <code>content.json</code> straight to GitHub — Vercel then redeploys automatically and the live
+        site updates in ~a minute. Create a
+        <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">fine-grained token</a>
+        limited to that one repo with <b>Contents: Read and write</b> permission.
+      </p>
+      <div class="cloud-grid">
+        <label>Repository <input id="ghRepo" placeholder="owner/repo  e.g. alonshimony/baba-ten" /></label>
+        <label>Branch <input id="ghBranch" placeholder="main" value="main" /></label>
+        <label>Folder in repo <input id="ghPath" placeholder="empty if the site is at the repo root" /></label>
+        <label>Access token <input id="ghToken" type="password" placeholder="github_pat_..." autocomplete="off" /></label>
+      </div>
+      <label class="cloud-remember"><input type="checkbox" id="ghRemember" /> remember these on this device</label>
+    </details>
+
+    <div id="years"></div>
+  </div>
+
+  <div class="bar">
+    <button class="btn primary" id="saveGh">&#9729;&#65039; Save &amp; update live site</button>
+    <button class="btn ghost" id="saveDir">&#128190; Save to local folder</button>
+    <button class="btn ghost" id="dlJson">Download content.json</button>
+    <button class="btn ghost" id="dlImgs">Download new photos</button>
+    <span id="status"></span>
+  </div>
+
+  <input type="file" id="filePick" accept="image/*" multiple hidden />
+  <script src="js/setup.js"></script>
+</body>
+</html>
