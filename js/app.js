@@ -146,6 +146,41 @@
     setAmbient(rate) { this.init(); this.ambient = rate; },
   };
 
+  /* -------------------- autoplay / kiosk mode -------------------- */
+  const Auto = {
+    on: sessionStorage.getItem("baba10-auto") === "1",
+    enabledAt: 0,
+    SPEED: 150, // px/s of automatic strip scroll
+    enable() {
+      this.on = true;
+      this.enabledAt = Date.now();
+      sessionStorage.setItem("baba10-auto", "1");
+      this.pill();
+    },
+    disable() {
+      this.on = false;
+      sessionStorage.removeItem("baba10-auto");
+      document.querySelectorAll(".auto-pill").forEach((n) => n.remove());
+      document.querySelectorAll(".auto-toggle").forEach((n) => (n.textContent = "▶ PLAY"));
+    },
+    pill() {
+      if (document.querySelector(".auto-pill")) return;
+      const p = document.createElement("div");
+      p.className = "auto-pill";
+      p.textContent = "▶ autoplay — touch to take control";
+      document.body.appendChild(p);
+    },
+  };
+  // any human interaction hands control back
+  ["wheel", "touchstart", "keydown"].forEach((ev) =>
+    window.addEventListener(ev, (e) => {
+      if (!Auto.on) return;
+      if (Date.now() - Auto.enabledAt < 1200) return;
+      if (e.target && e.target.closest && e.target.closest(".auto-toggle, .year-row-auto")) return;
+      Auto.disable();
+    }, { passive: true })
+  );
+
   /* -------------------- helpers -------------------- */
   const el = (tag, cls, html) => {
     const n = document.createElement(tag);
@@ -259,6 +294,8 @@
       else {
         prog.textContent = esc(DATA.intro.loaderNote);
         intro.classList.add("ready");
+        // kiosk mode: open the book by itself (muted — browsers block un-clicked audio)
+        if (Auto.on) setTimeout(() => finish(false), 1000);
       }
     })(t0);
 
@@ -319,6 +356,17 @@
     center.append(yearsLink, logo, aboutLink);
 
     const right = el("div", "hdr-right");
+    const play = el("button", "sound-toggle auto-toggle", Auto.on ? "■ STOP" : "▶ PLAY");
+    play.title = "autoplay: run the whole decade hands-free, on a loop";
+    play.addEventListener("click", () => {
+      if (Auto.on) { Auto.disable(); }
+      else {
+        Auto.enable();
+        play.textContent = "■ STOP";
+        if (!/^#\/year\//.test(location.hash)) transitionTo("#/year/" + YEARS[0].year);
+      }
+    });
+    right.appendChild(play);
     const snd = el("button", "sound-toggle" + (Sound.enabled ? "" : " muted"), "SOUND");
     snd.addEventListener("click", () => {
       Sound.setEnabled(!Sound.enabled);
@@ -510,10 +558,20 @@
     window.addEventListener("keydown", onKey);
 
     const panels = [...strip.querySelectorAll("[data-reveal]")];
-    let revealed = 0;
+    let revealed = 0, lastT = 0, autoEnd = false;
 
-    (function loop() {
+    (function loop(t) {
       if (!running) return;
+      const dt = lastT ? Math.min(0.05, (t - lastT) / 1000) : 0.016;
+      lastT = t || 0;
+      // autoplay: glide through the year by itself
+      if (Auto.on && max > 0) {
+        target = Math.min(max, target + Auto.SPEED * dt);
+        if (!autoEnd && current >= max - 2) {
+          autoEnd = true;
+          setTimeout(() => { if (running && Auto.on) tryAdvance(); }, 2400);
+        }
+      }
       current += (target - current) * 0.075;
       if (Math.abs(target - current) < 0.05) current = target;
       strip.style.transform = `translate3d(${-current}px, 0, 0)`;
@@ -574,6 +632,17 @@
     album.append(el("span", "yr-num", esc(DATA.book.albumLabel)), el("span", "yr-title", esc(DATA.book.finaleLabel)));
     album.addEventListener("mouseenter", () => Sound.blip(880));
     list.appendChild(album);
+    // autoplay for big screens: runs the whole decade on a loop, hands-free
+    const auto = el("a", "year-row year-row-album year-row-auto");
+    auto.style.setProperty("--i", YEARS.length + 1);
+    auto.href = "#/year/" + YEARS[0].year;
+    auto.append(el("span", "yr-num", "▶ AUTOPLAY"), el("span", "yr-title", "hands-free, loops forever"));
+    auto.addEventListener("click", (e) => {
+      e.preventDefault();
+      Auto.enable();
+      transitionTo("#/year/" + YEARS[0].year);
+    });
+    list.appendChild(auto);
     page.appendChild(list);
     app.appendChild(page);
     app.appendChild(buildChrome({ dark: true }));
@@ -661,7 +730,25 @@
       if (e.key === "ArrowLeft") flip(-1);
     };
     window.addEventListener("keydown", onKey);
-    cleanup = () => window.removeEventListener("keydown", onKey);
+
+    // autoplay: flip through the whole album, then loop back to year 1
+    let autoTimer = null;
+    if (Auto.on) {
+      autoTimer = setInterval(() => {
+        if (!Auto.on) { clearInterval(autoTimer); autoTimer = null; return; }
+        if (flipping) return;
+        if (s < maxS) flip(1);
+        else {
+          clearInterval(autoTimer); autoTimer = null;
+          setTimeout(() => { if (Auto.on) transitionTo("#/year/" + YEARS[0].year); }, 4200);
+        }
+      }, 4200);
+    }
+
+    cleanup = () => {
+      window.removeEventListener("keydown", onKey);
+      if (autoTimer) clearInterval(autoTimer);
+    };
 
     app.appendChild(page);
     app.appendChild(buildChrome({ dark: true }));
@@ -683,6 +770,15 @@
     if (cleanup) { cleanup(); cleanup = null; }
     app.innerHTML = "";
     const h = location.hash || "#/years";
+
+    // #/play → kiosk mode from year 1
+    if (h.startsWith("#/play")) {
+      Auto.enable();
+      location.hash = "#/year/" + YEARS[0].year;
+      return;
+    }
+    if (Auto.on) Auto.pill();
+
     const mYear = h.match(/^#\/year\/(\d{4})/);
 
     document.title = DATA.brand.siteTitle + " | " + DATA.brand.name;
@@ -706,6 +802,9 @@
   }
 
   window.addEventListener("hashchange", route);
+
+  // ?play in the URL also starts kiosk mode (handy for big-screen bookmarks)
+  if (new URLSearchParams(location.search).has("play")) Auto.enable();
 
   if (introDone) {
     route();

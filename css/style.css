@@ -611,17 +611,21 @@ button { font: inherit; background: none; border: none; cursor: pointer; color: 
 .recap-kicker b { color: var(--accent); }
 
 .recap-page {
-  width: clamp(280px, 26vw, 400px);
-  height: min(72vh, 640px);
+  width: clamp(380px, 44vw, 640px);
+  max-height: 78vh;
   background: #fff;
   border: 3px solid var(--ink);
   border-radius: 4px;
   box-shadow: 9px 11px 0 rgba(28, 31, 46, 0.18);
   padding: 12px;
-  display: flex; flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 10px;
   transform: rotate(-1.2deg);
 }
+.recap-head { grid-column: 1 / -1; }
+/* odd photo count: the last one gets the full row */
+.recap-row:last-child:nth-child(even) { grid-column: 1 / -1; }
 
 .recap-head {
   display: flex; justify-content: space-between; align-items: baseline;
@@ -635,7 +639,8 @@ button { font: inherit; background: none; border: none; cursor: pointer; color: 
 
 .recap-row {
   position: relative;
-  flex: 1;
+  /* match the 4:3 comic-panel photos — landscape cells, no square squish */
+  aspect-ratio: 4 / 3;
   min-height: 0;
   border: 2.5px solid var(--ink);
   border-radius: 2px;
@@ -934,11 +939,12 @@ button { font: inherit; background: none; border: none; cursor: pointer; color: 
 
 /* recap pages fill the album pages, rows always visible */
 .fb-page .recap-page, .fb-flipper .recap-page {
-  width: 100%; height: 100%;
+  width: 100%; height: 100%; max-height: none;
   border: 0; border-radius: 0; box-shadow: none;
   transform: none;
+  grid-auto-rows: 1fr;
 }
-.fb-page .recap-row, .fb-flipper .recap-row { opacity: 1; animation: none; }
+.fb-page .recap-row, .fb-flipper .recap-row { opacity: 1; animation: none; aspect-ratio: auto; }
 
 .fb-blank { width: 100%; height: 100%; background: #fdfdfd; }
 
@@ -1007,6 +1013,29 @@ button { font: inherit; background: none; border: none; cursor: pointer; color: 
 /* smaller end-card text for "THE ALBUM" */
 .ec-album { font-size: clamp(2.4rem, 5.5vw, 4.6rem) !important; }
 
+/* ---------- autoplay / kiosk ---------- */
+.auto-pill {
+  position: fixed;
+  right: 18px; bottom: 46px;
+  z-index: 58;
+  background: rgba(28, 31, 46, 0.82);
+  color: var(--gold);
+  border: 1px solid rgba(242, 180, 65, 0.5);
+  border-radius: 999px;
+  padding: 7px 16px;
+  font: 500 0.74rem var(--font-ui);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  pointer-events: none;
+  animation: pill-breathe 3s ease-in-out infinite;
+  backdrop-filter: blur(4px);
+}
+@keyframes pill-breathe {
+  0%, 100% { opacity: 0.75; }
+  50% { opacity: 1; }
+}
+.auto-toggle { color: var(--accent); font-weight: 700; }
+
 /* ---------- responsive ---------- */
 @media (max-width: 760px) {
   .hdr { padding: 12px 14px 0; font-size: 0.68rem; }
@@ -1020,4 +1049,5 @@ button { font: inherit; background: none; border: none; cursor: pointer; color: 
   .panel { width: 78vw; }
   .bubble { max-width: 88%; }
   .strip { gap: 52px; padding: 0 11vw; }
+  .recap-page { width: 86vw; }
 }
