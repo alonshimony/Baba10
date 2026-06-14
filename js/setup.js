@@ -249,9 +249,23 @@
       $remember.checked = true;
     }
   } catch {}
+  // accept whatever the user pastes — full URL, .git suffix, slashes — reduce to "owner/repo"
+  function normalizeRepo(v) {
+    let r = (v || "").trim();
+    r = r.replace(/^(https?:\/\/)?(www\.)?github\.com\//i, ""); // strip URL prefix (protocol optional)
+    r = r.replace(/^git@github\.com:/i, "");                  // strip ssh prefix
+    r = r.replace(/\.git$/i, "");                             // strip .git
+    r = r.replace(/^\/+|\/+$/g, "");                          // strip stray slashes
+    const parts = r.split("/").filter(Boolean);
+    return parts.length >= 2 ? parts[0] + "/" + parts[1] : r; // keep only owner/repo
+  }
   function ghSettings() {
     const s = {};
     GH_FIELDS.forEach((id) => (s[id] = document.getElementById(id).value.trim()));
+    s.ghRepo = normalizeRepo(s.ghRepo);
+    // reflect the cleaned value back into the field so the user sees what will be used
+    const repoEl = document.getElementById("ghRepo");
+    if (repoEl.value.trim() !== s.ghRepo) repoEl.value = s.ghRepo;
     if ($remember.checked) localStorage.setItem("baba10-gh", JSON.stringify(s));
     else localStorage.removeItem("baba10-gh");
     return s;
