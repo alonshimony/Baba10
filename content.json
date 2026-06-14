@@ -48,10 +48,26 @@
       "label": "YEAR 1",
       "title": "The Beginning",
       "panels": [
-        { "photo": "photos/2016-01.jpg", "bubble": "2016. A few desks, a lot of dreams. Baba Entertainment is born.", "bubblePos": "top-left" },
-        { "photo": "photos/2016-02.jpg", "bubble": "\"Trust me — people are going to LOVE this game.\"", "bubblePos": "top-right" },
-        { "photo": "photos/2016-03.jpg", "bubble": "First whiteboard. First roadmap. First all-nighter.", "bubblePos": "bottom-left" },
-        { "photo": "photos/2016-04.jpg", "bubble": "And just like that... we pressed START.", "bubblePos": "top-right" }
+        {
+          "photo": "photos/2016-01.jpg",
+          "bubble": "2016. A few desks, a lot of dreams. Baba Entertainment is born.",
+          "bubblePos": "top-left"
+        },
+        {
+          "photo": "photos/2016-02.jpg",
+          "bubble": "\"Trust me — people are going to LOVE this game.\"",
+          "bubblePos": "top-right"
+        },
+        {
+          "photo": "photos/2016-03.jpg",
+          "bubble": "First whiteboard. First roadmap. First all-nighter.",
+          "bubblePos": "bottom-left"
+        },
+        {
+          "photo": "photos/2016-04.jpg",
+          "bubble": "And just like that... we pressed START.",
+          "bubblePos": "top-right"
+        }
       ]
     },
     {
@@ -59,10 +75,26 @@
       "label": "YEAR 2",
       "title": "First Spins",
       "panels": [
-        { "photo": "photos/2017-01.jpg", "bubble": "2017. The first players arrive. We watch every single session.", "bubblePos": "top-left" },
-        { "photo": "photos/2017-02.jpg", "bubble": "\"Someone in Texas just hit the jackpot!\"", "bubblePos": "top-right" },
-        { "photo": "photos/2017-03.jpg", "bubble": "The team doubles. The pizza orders triple.", "bubblePos": "bottom-right" },
-        { "photo": "photos/2017-04.jpg", "bubble": "We learned fast: ship, listen, fix, repeat.", "bubblePos": "top-left" }
+        {
+          "photo": "photos/2017-01.jpg",
+          "bubble": "2017. The first players arrive. We watch every single session.",
+          "bubblePos": "top-left"
+        },
+        {
+          "photo": "photos/2017-02.jpg",
+          "bubble": "\"Someone in Texas just hit the jackpot!\"",
+          "bubblePos": "top-right"
+        },
+        {
+          "photo": "photos/2017-03.jpg",
+          "bubble": "The team doubles. The pizza orders triple.",
+          "bubblePos": "bottom-right"
+        },
+        {
+          "photo": "photos/2017-04.jpg",
+          "bubble": "We learned fast: ship, listen, fix, repeat.",
+          "bubblePos": "top-left"
+        }
       ]
     },
     {
@@ -70,10 +102,26 @@
       "label": "YEAR 3",
       "title": "Going Wild",
       "panels": [
-        { "photo": "photos/2018-01.jpg", "bubble": "2018. Wild Slots goes wild. The office gets loud.", "bubblePos": "top-left" },
-        { "photo": "photos/2018-02.jpg", "bubble": "\"DIN DONG — new feature just went live!\"", "bubblePos": "top-right" },
-        { "photo": "photos/2018-03.jpg", "bubble": "New faces, new desks, same crazy energy.", "bubblePos": "bottom-left" },
-        { "photo": "photos/2018-04.jpg", "bubble": "Our first big company trip. Nobody slept.", "bubblePos": "top-right" }
+        {
+          "photo": "photos/2018-01.jpg",
+          "bubble": "2018. Wild Slots goes wild. The office gets loud.",
+          "bubblePos": "top-left"
+        },
+        {
+          "photo": "photos/2018-02.jpg",
+          "bubble": "\"DIN DONG — new feature just went live!\"",
+          "bubblePos": "top-right"
+        },
+        {
+          "photo": "photos/2018-03.jpg",
+          "bubble": "New faces, new desks, same crazy energy.",
+          "bubblePos": "bottom-left"
+        },
+        {
+          "photo": "photos/2018-04.jpg",
+          "bubble": "Our first big company trip. Nobody slept.",
+          "bubblePos": "top-right"
+        }
       ]
     },
     {
@@ -81,10 +129,26 @@
       "label": "YEAR 4",
       "title": "Leveling Up",
       "panels": [
-        { "photo": "photos/2019-01.jpg", "bubble": "2019. Millions of spins a day. We level up everything.", "bubblePos": "top-left" },
-        { "photo": "photos/2019-02.jpg", "bubble": "\"Let's redesign the lobby. Again.\"", "bubblePos": "top-right" },
-        { "photo": "photos/2019-03.jpg", "bubble": "The art team outdoes itself. Every. Single. Sprint.", "bubblePos": "bottom-right" },
-        { "photo": "photos/2019-04.jpg", "bubble": "Hackathon week — the best ideas came after midnight.", "bubblePos": "top-left" }
+        {
+          "photo": "photos/2019-01.jpg",
+          "bubble": "2019. Millions of spins a day. We level up everything.",
+          "bubblePos": "top-left"
+        },
+        {
+          "photo": "photos/2019-02.jpg",
+          "bubble": "\"Let's redesign the lobby. Again.\"",
+          "bubblePos": "top-right"
+        },
+        {
+          "photo": "photos/2019-03.jpg",
+          "bubble": "The art team outdoes itself. Every. Single. Sprint.",
+          "bubblePos": "bottom-right"
+        },
+        {
+          "photo": "photos/2019-04.jpg",
+          "bubble": "Hackathon week — the best ideas came after midnight.",
+          "bubblePos": "top-left"
+        }
       ]
     },
     {
@@ -92,10 +156,26 @@
       "label": "YEAR 5",
       "title": "Apart, Together",
       "panels": [
-        { "photo": "photos/2020-01.jpg", "bubble": "2020. The world stays home. So do we — but the games never stop.", "bubblePos": "top-left" },
-        { "photo": "photos/2020-02.jpg", "bubble": "\"Can everyone hear me? You're on mute. YOU'RE ON MUTE.\"", "bubblePos": "top-right" },
-        { "photo": "photos/2020-03.jpg", "bubble": "Zoom happy hours, home-office cats, and record numbers.", "bubblePos": "bottom-left" },
-        { "photo": "photos/2020-04.jpg", "bubble": "Apart, but more together than ever.", "bubblePos": "top-right" }
+        {
+          "photo": "photos/2020-01.jpg",
+          "bubble": "2020. The world stays home. So do we — but the games never stop.",
+          "bubblePos": "top-left"
+        },
+        {
+          "photo": "photos/2020-02.jpg",
+          "bubble": "\"Can everyone hear me? You're on mute. YOU'RE ON MUTE.\"",
+          "bubblePos": "top-right"
+        },
+        {
+          "photo": "photos/2020-03.jpg",
+          "bubble": "Zoom happy hours, home-office cats, and record numbers.",
+          "bubblePos": "bottom-left"
+        },
+        {
+          "photo": "photos/2020-04.jpg",
+          "bubble": "Apart, but more together than ever.",
+          "bubblePos": "top-right"
+        }
       ]
     },
     {
@@ -103,10 +183,26 @@
       "label": "YEAR 6",
       "title": "The Comeback",
       "panels": [
-        { "photo": "photos/2021-01.jpg", "bubble": "2021. Back to the office. The coffee machine missed us.", "bubblePos": "top-left" },
-        { "photo": "photos/2021-02.jpg", "bubble": "\"New game. New engine. New everything.\"", "bubblePos": "top-right" },
-        { "photo": "photos/2021-03.jpg", "bubble": "The biggest launch in Baba history — so far.", "bubblePos": "bottom-right" },
-        { "photo": "photos/2021-04.jpg", "bubble": "And the team kept growing. And growing.", "bubblePos": "top-left" }
+        {
+          "photo": "photos/2021-01.jpg",
+          "bubble": "2021. Back to the office. The coffee machine missed us.",
+          "bubblePos": "top-left"
+        },
+        {
+          "photo": "photos/2021-02.jpg",
+          "bubble": "\"New game. New engine. New everything.\"",
+          "bubblePos": "top-right"
+        },
+        {
+          "photo": "photos/2021-03.jpg",
+          "bubble": "The biggest launch in Baba history — so far.",
+          "bubblePos": "bottom-right"
+        },
+        {
+          "photo": "photos/2021-04.jpg",
+          "bubble": "And the team kept growing. And growing.",
+          "bubblePos": "top-left"
+        }
       ]
     },
     {
@@ -114,10 +210,26 @@
       "label": "YEAR 7",
       "title": "Big League",
       "panels": [
-        { "photo": "photos/2022-01.jpg", "bubble": "2022. Playing in the big league now.", "bubblePos": "top-left" },
-        { "photo": "photos/2022-02.jpg", "bubble": "\"Top charts. Don't blink.\"", "bubblePos": "top-right" },
-        { "photo": "photos/2022-03.jpg", "bubble": "New office floor. We filled it in three months.", "bubblePos": "bottom-left" },
-        { "photo": "photos/2022-04.jpg", "bubble": "Work hard, party harder — Baba style.", "bubblePos": "top-right" }
+        {
+          "photo": "photos/2022-01.jpg",
+          "bubble": "2022. Playing in the big league now.",
+          "bubblePos": "top-left"
+        },
+        {
+          "photo": "photos/2022-02.jpg",
+          "bubble": "\"Top charts. Don't blink.\"",
+          "bubblePos": "top-right"
+        },
+        {
+          "photo": "photos/2022-03.jpg",
+          "bubble": "New office floor. We filled it in three months.",
+          "bubblePos": "bottom-left"
+        },
+        {
+          "photo": "photos/2022-04.jpg",
+          "bubble": "Work hard, party harder — Baba style.",
+          "bubblePos": "top-right"
+        }
       ]
     },
     {
@@ -125,10 +237,26 @@
       "label": "YEAR 8",
       "title": "New Worlds",
       "panels": [
-        { "photo": "photos/2023-01.jpg", "bubble": "2023. New genres, new worlds, new bets on ourselves.", "bubblePos": "top-left" },
-        { "photo": "photos/2023-02.jpg", "bubble": "\"What if we tried something nobody expects?\"", "bubblePos": "top-right" },
-        { "photo": "photos/2023-03.jpg", "bubble": "Prototypes everywhere. Some glorious. Some... educational.", "bubblePos": "bottom-right" },
-        { "photo": "photos/2023-04.jpg", "bubble": "The Baba family — stronger through everything.", "bubblePos": "top-left" }
+        {
+          "photo": "photos/2023-01.jpg",
+          "bubble": "2023. New genres, new worlds, new bets on ourselves.",
+          "bubblePos": "top-left"
+        },
+        {
+          "photo": "photos/2023-02.jpg",
+          "bubble": "\"What if we tried something nobody expects?\"",
+          "bubblePos": "top-right"
+        },
+        {
+          "photo": "photos/2023-03.jpg",
+          "bubble": "Prototypes everywhere. Some glorious. Some... educational.",
+          "bubblePos": "bottom-right"
+        },
+        {
+          "photo": "photos/2023-04.jpg",
+          "bubble": "The Baba family — stronger through everything.",
+          "bubblePos": "top-left"
+        }
       ]
     },
     {
@@ -136,10 +264,26 @@
       "label": "YEAR 9",
       "title": "Full Throttle",
       "panels": [
-        { "photo": "photos/2024-01.jpg", "bubble": "2024. Full throttle. Every team firing at once.", "bubblePos": "top-left" },
-        { "photo": "photos/2024-02.jpg", "bubble": "\"Ship it. SHIP IT!\"", "bubblePos": "top-right" },
-        { "photo": "photos/2024-03.jpg", "bubble": "Records broken. Then broken again a month later.", "bubblePos": "bottom-left" },
-        { "photo": "photos/2024-04.jpg", "bubble": "A decade in the making — and it shows.", "bubblePos": "top-right" }
+        {
+          "photo": "photos/2024-01.jpg",
+          "bubble": "2024. Full throttle. Every team firing at once.",
+          "bubblePos": "top-left"
+        },
+        {
+          "photo": "photos/2024-02.jpg",
+          "bubble": "\"Ship it. SHIP IT!\"",
+          "bubblePos": "top-right"
+        },
+        {
+          "photo": "photos/2024-03.jpg",
+          "bubble": "Records broken. Then broken again a month later.",
+          "bubblePos": "bottom-left"
+        },
+        {
+          "photo": "photos/2024-04.jpg",
+          "bubble": "A decade in the making — and it shows.",
+          "bubblePos": "top-right"
+        }
       ]
     },
     {
@@ -147,10 +291,26 @@
       "label": "YEAR 10",
       "title": "Ten Years Strong",
       "panels": [
-        { "photo": "photos/2025-01.jpg", "bubble": "2025. Ten years strong, and just warming up.", "bubblePos": "top-left" },
-        { "photo": "photos/2025-02.jpg", "bubble": "\"Remember when we were five people in one room?\"", "bubblePos": "top-right" },
-        { "photo": "photos/2025-03.jpg", "bubble": "Old friends, new legends — one family.", "bubblePos": "bottom-right" },
-        { "photo": "photos/2025-04.jpg", "bubble": "The best chapter? Still being written.", "bubblePos": "top-left" }
+        {
+          "photo": "photos/2025-01.jpg",
+          "bubble": "2025. Ten years strong, and just warming up.",
+          "bubblePos": "top-left"
+        },
+        {
+          "photo": "photos/2025-02.jpg",
+          "bubble": "\"Remember when we were five people in one room?\"",
+          "bubblePos": "top-right"
+        },
+        {
+          "photo": "photos/2025-03.jpg",
+          "bubble": "Old friends, new legends — one family.",
+          "bubblePos": "bottom-right"
+        },
+        {
+          "photo": "photos/2025-04.jpg",
+          "bubble": "The best chapter? Still being written.",
+          "bubblePos": "top-left"
+        }
       ]
     },
     {
@@ -158,10 +318,26 @@
       "label": "THE ANNIVERSARY",
       "title": "Happy 10th, Baba!",
       "panels": [
-        { "photo": "photos/2026-01.jpg", "bubble": "2026. TEN YEARS OF BABA. Cue the confetti!", "bubblePos": "top-left" },
-        { "photo": "photos/2026-02.jpg", "bubble": "\"To the next ten — may every spin be a win.\"", "bubblePos": "top-right" },
-        { "photo": "photos/2026-03.jpg", "bubble": "Thank you to every player, every Baba, every believer.", "bubblePos": "bottom-left" },
-        { "photo": "photos/2026-04.jpg", "bubble": "THE END... of chapter one. See you in 2036.", "bubblePos": "top-right" }
+        {
+          "photo": "photos/2026-01.jpg",
+          "bubble": "2026. TEN YEARS OF BABA. Cue the confetti!",
+          "bubblePos": "top-left"
+        },
+        {
+          "photo": "photos/2026-02.jpg",
+          "bubble": "\"To the next ten — may every spin be a win.\"",
+          "bubblePos": "top-right"
+        },
+        {
+          "photo": "photos/2026-03.jpg",
+          "bubble": "Thank you to every player, every Baba, every believer.",
+          "bubblePos": "bottom-left"
+        },
+        {
+          "photo": "photos/2026-04.jpg",
+          "bubble": "THE END... of chapter one. See you in 2036.",
+          "bubblePos": "top-right"
+        }
       ]
     }
   ]
