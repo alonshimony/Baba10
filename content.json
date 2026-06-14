@@ -50,22 +50,37 @@
       "panels": [
         {
           "photo": "photos/2016-01.jpg",
-          "bubble": "2016. A few desks, a lot of dreams. Baba Entertainment is born.",
-          "bubblePos": "top-left"
-        },
-        {
-          "photo": "photos/2016-02.jpg",
-          "bubble": "\"Trust me — people are going to LOVE this game.\"",
+          "bubble": "\"Baba started at a littel room at Arin’s apartment.\"",
           "bubblePos": "top-right"
         },
         {
-          "photo": "photos/2016-03.jpg",
-          "bubble": "First whiteboard. First roadmap. First all-nighter.",
+          "photo": "photos/2016-02.jpg",
+          "bubble": "Happy at the start line, ready to take on the world!",
           "bubblePos": "bottom-left"
         },
         {
+          "photo": "photos/2016-03.jpg",
+          "bubble": "And just like that... started to work around the clock.",
+          "bubblePos": "top-right"
+        },
+        {
           "photo": "photos/2016-04.jpg",
-          "bubble": "And just like that... we pressed START.",
+          "bubble": "And work…",
+          "bubblePos": "bottom-right"
+        },
+        {
+          "photo": "photos/2016-05.jpg",
+          "bubble": "Visiting first conference together as Baba",
+          "bubblePos": "top-left"
+        },
+        {
+          "photo": "photos/2016-06.jpg",
+          "bubble": "Showing Baba to the world in a international conference with active boot!",
+          "bubblePos": "top-right"
+        },
+        {
+          "photo": "photos/2016-07.jpg",
+          "bubble": "Competing face to face with Pixis team ! ",
           "bubblePos": "top-right"
         }
       ]
