@@ -17,6 +17,7 @@
     master: null,
     enabled: false,
     started: false,
+    hasMusic() { return !!(DATA.brand && DATA.brand.music); },
     init() {
       if (this.ctx) return;
       const AC = window.AudioContext || window.webkitAudioContext;
@@ -26,39 +27,55 @@
       this.master.gain.value = 0;
       this.master.connect(this.ctx.destination);
 
-      // warm two-osc pad through a lazy lowpass
-      const lp = this.ctx.createBiquadFilter();
-      lp.type = "lowpass";
-      lp.frequency.value = 420;
-      lp.connect(this.master);
+      if (this.hasMusic()) {
+        // play the uploaded background track on a loop
+        this.audio = new Audio(DATA.brand.music);
+        this.audio.loop = true;
+        this.audio.preload = "auto";
+        try {
+          const src = this.ctx.createMediaElementSource(this.audio);
+          src.connect(this.master);
+        } catch (e) {
+          // routing failed (e.g. CORS) — fall back to the element's own volume
+          this.audio.volume = 0.6;
+          this.routed = false;
+        }
+        this.routed = this.routed !== false;
+      } else {
+        // warm two-osc pad through a lazy lowpass (generative fallback)
+        const lp = this.ctx.createBiquadFilter();
+        lp.type = "lowpass";
+        lp.frequency.value = 420;
+        lp.connect(this.master);
 
-      [[110, 0.05], [164.81, 0.035], [220, 0.03]].forEach(([f, g], i) => {
-        const o = this.ctx.createOscillator();
-        o.type = i === 2 ? "sine" : "triangle";
-        o.frequency.value = f;
-        o.detune.value = i * 4 - 4;
-        const og = this.ctx.createGain();
-        og.gain.value = g;
-        o.connect(og); og.connect(lp);
-        o.start();
-        const lfo = this.ctx.createOscillator();
-        lfo.frequency.value = 0.06 + i * 0.04;
-        const lg = this.ctx.createGain();
-        lg.gain.value = g * 0.5;
-        lfo.connect(lg); lg.connect(og.gain);
-        lfo.start();
-      });
+        [[110, 0.05], [164.81, 0.035], [220, 0.03]].forEach(([f, g], i) => {
+          const o = this.ctx.createOscillator();
+          o.type = i === 2 ? "sine" : "triangle";
+          o.frequency.value = f;
+          o.detune.value = i * 4 - 4;
+          const og = this.ctx.createGain();
+          og.gain.value = g;
+          o.connect(og); og.connect(lp);
+          o.start();
+          const lfo = this.ctx.createOscillator();
+          lfo.frequency.value = 0.06 + i * 0.04;
+          const lg = this.ctx.createGain();
+          lg.gain.value = g * 0.5;
+          lfo.connect(lg); lg.connect(og.gain);
+          lfo.start();
+        });
 
-      // vinyl-style crackle
-      const len = this.ctx.sampleRate * 2;
-      const buf = this.ctx.createBuffer(1, len, this.ctx.sampleRate);
-      const ch = buf.getChannelData(0);
-      for (let i = 0; i < len; i++) ch[i] = Math.random() < 0.0012 ? (Math.random() * 2 - 1) * 0.5 : 0;
-      const noise = this.ctx.createBufferSource();
-      noise.buffer = buf; noise.loop = true;
-      const ng = this.ctx.createGain(); ng.gain.value = 0.10;
-      noise.connect(ng); ng.connect(this.master);
-      noise.start();
+        // vinyl-style crackle
+        const len = this.ctx.sampleRate * 2;
+        const buf = this.ctx.createBuffer(1, len, this.ctx.sampleRate);
+        const ch = buf.getChannelData(0);
+        for (let i = 0; i < len; i++) ch[i] = Math.random() < 0.0012 ? (Math.random() * 2 - 1) * 0.5 : 0;
+        const noise = this.ctx.createBufferSource();
+        noise.buffer = buf; noise.loop = true;
+        const ng = this.ctx.createGain(); ng.gain.value = 0.10;
+        noise.connect(ng); ng.connect(this.master);
+        noise.start();
+      }
       this.started = true;
     },
     setEnabled(on) {
@@ -67,7 +84,12 @@
       if (!this.ctx) return;
       if (this.ctx.state === "suspended") this.ctx.resume();
       this.master.gain.cancelScheduledValues(this.ctx.currentTime);
-      this.master.gain.linearRampToValueAtTime(on ? 0.5 : 0, this.ctx.currentTime + 0.8);
+      this.master.gain.linearRampToValueAtTime(on ? 0.55 : 0, this.ctx.currentTime + 0.8);
+      if (this.audio) {
+        if (on) this.audio.play().catch(() => {});
+        else setTimeout(() => { if (!this.enabled) this.audio.pause(); }, 850);
+        if (this.routed === false) this.audio.volume = on ? 0.6 : 0;
+      }
     },
     blip(freq = 660) {
       if (!this.enabled || !this.ctx) return;
@@ -150,7 +172,17 @@
   const Auto = {
     on: sessionStorage.getItem("baba10-auto") === "1",
     enabledAt: 0,
-    SPEED: 150, // px/s of automatic strip scroll
+    SPEED: 150, // px/s of automatic strip scroll (at 1×)
+    RATES: [0.5, 1, 1.5, 2, 3],
+    rate: parseFloat(sessionStorage.getItem("baba10-speed")) ||
+          (DATA.autoplay && +DATA.autoplay.speed) || 1,
+    rateLabel() { return (Number.isInteger(this.rate) ? this.rate : this.rate.toFixed(1)) + "×"; },
+    cycleRate() {
+      const i = this.RATES.indexOf(this.rate);
+      this.rate = this.RATES[(i + 1) % this.RATES.length] || this.RATES[0];
+      sessionStorage.setItem("baba10-speed", this.rate);
+      return this.rate;
+    },
     enable() {
       this.on = true;
       this.enabledAt = Date.now();
@@ -211,6 +243,11 @@
   // one year's recap as a portrait comic-book page (used in the strip and the finale album)
   function buildRecapPage(yd) {
     const rp = el("div", "recap-page");
+    // more photos → more (smaller) columns so the page never overflows
+    const n = yd.panels.length;
+    const cols = n > 12 ? 5 : n > 9 ? 4 : n > 6 ? 3 : 2;
+    rp.style.setProperty("--cols", cols);
+    rp.classList.toggle("dense", cols > 2);
     rp.appendChild(el("div", "recap-head", `<span>${yd.year}</span><span>${esc(yd.title)}</span>`));
     yd.panels.forEach((p, ri) => {
       const row = el("div", "recap-row");
@@ -367,6 +404,10 @@
       }
     });
     right.appendChild(play);
+    const spd = el("button", "sound-toggle speed-toggle", Auto.rateLabel());
+    spd.title = "autoplay speed — click to cycle";
+    spd.addEventListener("click", () => { Auto.cycleRate(); spd.textContent = Auto.rateLabel(); });
+    right.appendChild(spd);
     const snd = el("button", "sound-toggle" + (Sound.enabled ? "" : " muted"), "SOUND");
     snd.addEventListener("click", () => {
       Sound.setEnabled(!Sound.enabled);
@@ -566,10 +607,10 @@
       lastT = t || 0;
       // autoplay: glide through the year by itself
       if (Auto.on && max > 0) {
-        target = Math.min(max, target + Auto.SPEED * dt);
+        target = Math.min(max, target + Auto.SPEED * Auto.rate * dt);
         if (!autoEnd && current >= max - 2) {
           autoEnd = true;
-          setTimeout(() => { if (running && Auto.on) tryAdvance(); }, 2400);
+          setTimeout(() => { if (running && Auto.on) tryAdvance(); }, 2400 / Auto.rate);
         }
       }
       current += (target - current) * 0.075;
@@ -734,20 +775,19 @@
     // autoplay: flip through the whole album, then loop back to year 1
     let autoTimer = null;
     if (Auto.on) {
-      autoTimer = setInterval(() => {
-        if (!Auto.on) { clearInterval(autoTimer); autoTimer = null; return; }
-        if (flipping) return;
-        if (s < maxS) flip(1);
-        else {
-          clearInterval(autoTimer); autoTimer = null;
-          setTimeout(() => { if (Auto.on) transitionTo("#/year/" + YEARS[0].year); }, 4200);
-        }
-      }, 4200);
+      const step = () => {
+        if (!Auto.on) { autoTimer = null; return; }
+        const wait = 4200 / Auto.rate;
+        if (flipping) { autoTimer = setTimeout(step, 250); return; }
+        if (s < maxS) { flip(1); autoTimer = setTimeout(step, wait); }
+        else { autoTimer = setTimeout(() => { if (Auto.on) transitionTo("#/year/" + YEARS[0].year); }, wait); }
+      };
+      autoTimer = setTimeout(step, 4200 / Auto.rate);
     }
 
     cleanup = () => {
       window.removeEventListener("keydown", onKey);
-      if (autoTimer) clearInterval(autoTimer);
+      if (autoTimer) clearTimeout(autoTimer);
     };
 
     app.appendChild(page);

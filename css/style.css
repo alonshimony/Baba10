@@ -612,20 +612,24 @@ button { font: inherit; background: none; border: none; cursor: pointer; color: 
 
 .recap-page {
   width: clamp(380px, 44vw, 640px);
-  max-height: 78vh;
+  max-height: 82vh;
+  overflow: hidden;
   background: #fff;
   border: 3px solid var(--ink);
   border-radius: 4px;
   box-shadow: 9px 11px 0 rgba(28, 31, 46, 0.18);
   padding: 12px;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(var(--cols, 2), 1fr);
+  align-content: start;
   gap: 10px;
   transform: rotate(-1.2deg);
 }
+/* denser pages (7+ photos): wider page, tighter gaps, smaller captions */
+.recap-page.dense { width: clamp(420px, 52vw, 760px); gap: 7px; padding: 10px; }
 .recap-head { grid-column: 1 / -1; }
-/* odd photo count: the last one gets the full row */
-.recap-row:last-child:nth-child(even) { grid-column: 1 / -1; }
+/* odd photo count in a 2-col page: the last one spans the full row */
+.recap-page:not(.dense) .recap-row:last-child:nth-child(even) { grid-column: 1 / -1; }
 
 .recap-head {
   display: flex; justify-content: space-between; align-items: baseline;
@@ -675,6 +679,8 @@ button { font: inherit; background: none; border: none; cursor: pointer; color: 
   overflow: hidden;
   z-index: 2;
 }
+/* shrink captions on dense (many-photo) pages so thumbnails stay readable */
+.recap-page.dense .recap-cap { font-size: 0.62rem; padding: 2px 6px; -webkit-line-clamp: 1; }
 
 /* compact placeholder inside recap rows */
 .panel-placeholder.compact { gap: 6px; }
@@ -1035,6 +1041,7 @@ button { font: inherit; background: none; border: none; cursor: pointer; color: 
   50% { opacity: 1; }
 }
 .auto-toggle { color: var(--accent); font-weight: 700; }
+.speed-toggle { font-weight: 700; font-variant-numeric: tabular-nums; min-width: 2.4em; text-align: center; }
 
 /* ---------- responsive ---------- */
 @media (max-width: 760px) {

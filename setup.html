@@ -36,6 +36,38 @@
     p.lead { color: rgba(217,236,242,0.75); margin-bottom: 26px; max-width: 760px; line-height: 1.5; }
     p.lead code { background: rgba(217,236,242,0.12); padding: 1px 6px; border-radius: 3px; font-size: 0.9em; }
 
+    /* settings (music + speed) */
+    .settings-sec {
+      display: flex; gap: 22px; flex-wrap: wrap; align-items: flex-end;
+      background: rgba(13, 16, 32, 0.35);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 16px 18px;
+      margin-bottom: 26px;
+    }
+    .set-block { display: flex; align-items: center; gap: 8px; }
+    .set-cap { display: block; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(217,236,242,0.6); margin-bottom: 5px; }
+    .set-block > .set-cap { align-self: flex-start; }
+    .music-drop {
+      min-width: 280px; min-height: 42px;
+      display: flex; align-items: center; justify-content: center; text-align: center;
+      border: 2px dashed rgba(217,236,242,0.35);
+      border-radius: 6px;
+      background: rgba(0,0,0,0.18);
+      color: rgba(217,236,242,0.7);
+      font-size: 0.82rem;
+      padding: 8px 14px;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .music-drop.over { border-color: var(--gold); background: rgba(242,180,65,0.12); }
+    .music-drop.has { border-style: solid; color: var(--teal); }
+    #speedSel {
+      background: #2b3050; border: 1px solid var(--line); border-radius: 6px;
+      color: #d9ecf2; font: 500 0.95rem "Space Grotesk", sans-serif; padding: 9px 12px;
+    }
+    #speedSel:focus { outline: 1px solid var(--gold); }
+
     /* year section */
     .year-sec {
       background: rgba(13, 16, 32, 0.35);
@@ -218,8 +250,30 @@
       <label class="cloud-remember"><input type="checkbox" id="ghRemember" /> remember these on this device</label>
     </details>
 
+    <div class="settings-sec">
+      <div class="set-block">
+        <label class="set-cap">Background music</label>
+        <div class="music-drop" id="musicDrop">
+          <span id="musicName">drop an .mp3 here or click to choose</span>
+        </div>
+        <button class="pbtn" id="musicClear" title="remove music" type="button">&times;</button>
+      </div>
+      <div class="set-block">
+        <label class="set-cap" for="speedSel">Autoplay speed</label>
+        <select id="speedSel">
+          <option value="0.5">0.5× slow</option>
+          <option value="1">1× normal</option>
+          <option value="1.5">1.5×</option>
+          <option value="2">2× fast</option>
+          <option value="3">3× very fast</option>
+        </select>
+      </div>
+    </div>
+
     <div id="years"></div>
   </div>
+
+  <audio id="musicPreview" loop hidden></audio>
 
   <div class="bar">
     <button class="btn primary" id="saveGh">&#9729;&#65039; Save &amp; update live site</button>

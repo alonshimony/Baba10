@@ -25,6 +25,9 @@
   // runtime image state per panel object (kept out of the JSON)
   const blobs = new WeakMap(); // panel -> { blob, url }
 
+  // background-music state (a new mp3 the user dropped, not yet saved)
+  let musicBlob = null, musicPath = "";
+
   function status(msg, err) {
     $status.textContent = msg;
     $status.classList.toggle("err", !!err);
@@ -185,6 +188,11 @@
   /* ---------------- export ---------------- */
   function cleanData() {
     const out = JSON.parse(JSON.stringify({ ...DATA, years: [] }));
+    out.brand = out.brand || {};
+    if (musicBlob) out.brand.music = musicPath;        // a freshly dropped track
+    else out.brand.music = DATA.brand.music || "";     // kept / cleared
+    out.autoplay = out.autoplay || {};
+    out.autoplay.speed = +DATA.autoplay.speed || 1;
     out.years = DATA.years.map((yd) => ({
       year: yd.year,
       label: yd.label,
@@ -208,6 +216,11 @@
     return list;
   }
 
+  // a freshly dropped music file to write, or null
+  function newAudio() {
+    return musicBlob ? { name: musicPath.replace(/^audio\//, ""), path: musicPath, blob: musicBlob } : null;
+  }
+
   // primary: write straight into the picked baba-ten folder
   document.getElementById("saveDir").addEventListener("click", async () => {
     if (!window.showDirectoryPicker) {
@@ -229,11 +242,19 @@
           await w.close();
         }
       }
+      const aud = newAudio();
+      if (aud) {
+        const audioDir = await dir.getDirectoryHandle("audio", { create: true });
+        const fh = await audioDir.getFileHandle(aud.name, { create: true });
+        const w = await fh.createWritable();
+        await w.write(aud.blob);
+        await w.close();
+      }
       const jh = await dir.getFileHandle("content.json", { create: true });
       const jw = await jh.createWritable();
       await jw.write(JSON.stringify(cleanData(), null, 2) + "\n");
       await jw.close();
-      status("saved content.json + " + imgs.length + " photo(s) ✓  — reload the site to see it");
+      status("saved content.json + " + imgs.length + " photo(s)" + (aud ? " + music" : "") + " ✓  — reload the site to see it");
     } catch (e) {
       if (e.name !== "AbortError") status("save failed: " + e.message, true);
     }
@@ -326,6 +347,15 @@
         });
         tree.push({ path: base + "photos/" + imgs[k].name, mode: "100644", type: "blob", sha: blob.sha });
       }
+      const aud = newAudio();
+      if (aud) {
+        status("uploading music…");
+        const ab = await gh(ghToken, `/repos/${ghRepo}/git/blobs`, {
+          content: await blobToBase64(aud.blob),
+          encoding: "base64",
+        });
+        tree.push({ path: base + aud.path, mode: "100644", type: "blob", sha: ab.sha });
+      }
       const jsonBlob = await gh(ghToken, `/repos/${ghRepo}/git/blobs`, {
         content: JSON.stringify(cleanData(), null, 2) + "\n",
         encoding: "utf-8",
@@ -361,9 +391,15 @@
   });
   document.getElementById("dlImgs").addEventListener("click", () => {
     const imgs = newImages();
-    if (!imgs.length) { status("no new photos to download", true); return; }
+    const aud = newAudio();
+    if (!imgs.length && !aud) { status("no new photos or music to download", true); return; }
     imgs.forEach((im, k) => setTimeout(() => download(im.name, im.blob), k * 350));
-    status("downloading " + imgs.length + " photo(s) — put them in baba-ten/photos/");
+    if (aud) {
+      setTimeout(() => download(aud.name, aud.blob), imgs.length * 350);
+      status("downloading " + imgs.length + " photo(s) → baba-ten/photos/  +  music → baba-ten/audio/");
+    } else {
+      status("downloading " + imgs.length + " photo(s) — put them in baba-ten/photos/");
+    }
   });
 
   /* ---------------- small utils ---------------- */
@@ -406,6 +442,58 @@
     a.click();
     setTimeout(() => URL.revokeObjectURL(a.href), 4000);
   }
+
+  /* ---------------- settings: background music + autoplay speed ---------------- */
+  function initSettings() {
+    DATA.brand = DATA.brand || {};
+    DATA.autoplay = DATA.autoplay || {};
+
+    const $name = document.getElementById("musicName");
+    const $drop = document.getElementById("musicDrop");
+    const $clear = document.getElementById("musicClear");
+    const $preview = document.getElementById("musicPreview");
+    const $speed = document.getElementById("speedSel");
+
+    const showMusic = () => {
+      const label = musicBlob ? musicPath + "  (new — save to apply)" : (DATA.brand.music || "");
+      $name.textContent = label || "drop an .mp3 here or click to choose";
+      $drop.classList.toggle("has", !!(musicBlob || DATA.brand.music));
+    };
+    showMusic();
+
+    // speed default
+    const sp = String(+DATA.autoplay.speed || 1);
+    if ([...$speed.options].some((o) => o.value === sp)) $speed.value = sp;
+    $speed.addEventListener("change", () => (DATA.autoplay.speed = +$speed.value));
+    DATA.autoplay.speed = +$speed.value;
+
+    const audioPick = document.createElement("input");
+    audioPick.type = "file"; audioPick.accept = "audio/*"; audioPick.hidden = true;
+    document.body.appendChild(audioPick);
+
+    async function takeAudio(files) {
+      const f = [...files].find((x) => x.type.startsWith("audio/") || /\.(mp3|m4a|ogg|wav)$/i.test(x.name));
+      if (!f) { status("that's not an audio file", true); return; }
+      musicBlob = f;
+      const ext = (f.name.match(/\.(mp3|m4a|ogg|wav)$/i) || [".mp3"])[0].toLowerCase();
+      musicPath = "audio/track" + ext;
+      try { $preview.src = URL.createObjectURL(f); } catch {}
+      showMusic();
+      status("music added ✓ — save to apply it to the site");
+    }
+
+    bindDrop($drop, takeAudio);
+    $drop.addEventListener("click", () => { audioPick.value = ""; audioPick.click(); });
+    audioPick.addEventListener("change", () => takeAudio(audioPick.files));
+    $clear.addEventListener("click", (e) => {
+      e.stopPropagation();
+      musicBlob = null; musicPath = "";
+      DATA.brand.music = "";
+      showMusic();
+      status("music cleared — save to apply");
+    });
+  }
+  initSettings();
 
   render();
 })();
