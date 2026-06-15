@@ -26,8 +26,13 @@ Open **`setup.html`** through the local server (e.g. `http://localhost:4173/setu
 - Write the **speech-bubble text** under each photo, pick the bubble corner, reorder or remove.
 - **Background music**: drop an `.mp3` in the Background music box — it's saved to `audio/` and looped
   behind the experience (plays once a visitor enables sound; browsers block un-clicked audio).
+- **Music volume**: set the default volume (saved as `brand.musicVolume`); use the ▶ preview button
+  to hear it. On the live site a volume slider sits in the header and is remembered per device.
 - **Autoplay speed**: set the default play speed (0.5×–3×). During playback you can also tap the
   speed chip in the header to change it live; it's remembered for the session.
+
+On phones, the finale album shows **one page at a time** (tap right to turn the page, left to go back)
+instead of the desktop two-page spread.
 - **Running locally?** Click **"Save to local folder"** and pick the `baba-ten` folder — the
   processed photos are written into `photos/` and `content.json` is generated (Chrome/Edge).
 - **Hosted on Vercel?** Open the **"Cloud setup"** box once, enter your GitHub `owner/repo`,

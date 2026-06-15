@@ -17,6 +17,12 @@
     master: null,
     enabled: false,
     started: false,
+    volume: (() => {
+      const v = parseFloat(localStorage.getItem("baba10-vol"));
+      if (!isNaN(v)) return Math.max(0, Math.min(1, v));
+      const d = DATA.brand && +DATA.brand.musicVolume;
+      return d >= 0 && d <= 1 ? d : 0.55;
+    })(),
     hasMusic() { return !!(DATA.brand && DATA.brand.music); },
     init() {
       if (this.ctx) return;
@@ -84,11 +90,20 @@
       if (!this.ctx) return;
       if (this.ctx.state === "suspended") this.ctx.resume();
       this.master.gain.cancelScheduledValues(this.ctx.currentTime);
-      this.master.gain.linearRampToValueAtTime(on ? 0.55 : 0, this.ctx.currentTime + 0.8);
+      this.master.gain.linearRampToValueAtTime(on ? this.volume : 0, this.ctx.currentTime + 0.8);
       if (this.audio) {
         if (on) this.audio.play().catch(() => {});
         else setTimeout(() => { if (!this.enabled) this.audio.pause(); }, 850);
-        if (this.routed === false) this.audio.volume = on ? 0.6 : 0;
+        if (this.routed === false) this.audio.volume = on ? this.volume : 0;
+      }
+    },
+    setVolume(v) {
+      this.volume = Math.max(0, Math.min(1, v));
+      localStorage.setItem("baba10-vol", this.volume);
+      if (this.ctx && this.enabled) {
+        this.master.gain.cancelScheduledValues(this.ctx.currentTime);
+        this.master.gain.linearRampToValueAtTime(this.volume, this.ctx.currentTime + 0.12);
+        if (this.routed === false && this.audio) this.audio.volume = this.volume;
       }
     },
     blip(freq = 660) {
@@ -412,8 +427,22 @@
     snd.addEventListener("click", () => {
       Sound.setEnabled(!Sound.enabled);
       snd.classList.toggle("muted", !Sound.enabled);
+      vol.value = Sound.enabled ? Sound.volume : Sound.volume; // keep slider in sync
     });
     right.appendChild(snd);
+
+    // volume slider
+    const vol = document.createElement("input");
+    vol.type = "range"; vol.min = "0"; vol.max = "1"; vol.step = "0.05";
+    vol.value = String(Sound.volume);
+    vol.className = "vol-slider";
+    vol.title = "volume";
+    vol.setAttribute("aria-label", "volume");
+    vol.addEventListener("input", () => {
+      Sound.setVolume(parseFloat(vol.value));
+      if (!Sound.enabled && parseFloat(vol.value) > 0) { Sound.setEnabled(true); snd.classList.remove("muted"); }
+    });
+    right.appendChild(vol);
 
     hdr.append(left, center, right);
     chrome.appendChild(hdr);
@@ -691,27 +720,33 @@
 
   /* -------------------- finale album (#/book) -------------------- */
   function renderBook() {
-    const page = el("div", "page page-book");
+    // phones in portrait show ONE page at a time (a two-page spread is unreadable there)
+    const mq = window.matchMedia("(max-width: 760px)");
+    const single = mq.matches;
+    const per = single ? 1 : 2;
+
+    const page = el("div", "page page-book" + (single ? " book-single" : ""));
     const bookEl = el("div", "finale-book");
     const spreadEl = el("div", "fb-spread");
     const pageL = el("div", "fb-page fb-left");
     const pageR = el("div", "fb-page fb-right");
     spreadEl.append(pageL, pageR);
     bookEl.appendChild(spreadEl);
-    bookEl.appendChild(el("div", "fb-hint", esc(DATA.book.flipHint)));
+    bookEl.appendChild(el("div", "fb-hint",
+      single ? "tap the right side to turn the page · left side to go back" : esc(DATA.book.flipHint)));
     page.appendChild(bookEl);
 
-    // sheets: cover, one recap per year, end note (padded to an even count)
+    // sheets: cover, one recap per year, end note
     const sheets = [{ type: "cover" }];
     YEARS.forEach((yd) => sheets.push({ type: "year", yd }));
     sheets.push({ type: "end" });
-    if (sheets.length % 2) sheets.push({ type: "blank" });
+    while (sheets.length % per) sheets.push({ type: "blank" });
 
-    const sheetEl = (s) => {
-      if (!s || s.type === "blank") return el("div", "fb-blank");
-      if (s.type === "cover" || s.type === "end") {
+    const sheetEl = (sh) => {
+      if (!sh || sh.type === "blank") return el("div", "fb-blank");
+      if (sh.type === "cover" || sh.type === "end") {
         const c = el("div", "fb-cover-page");
-        if (s.type === "cover") {
+        if (sh.type === "cover") {
           c.append(
             el("div", "fbc-top", esc(DATA.brand.logoTop)),
             el("div", "fbc-bottom", esc(DATA.brand.logoBottom)),
@@ -726,16 +761,21 @@
         }
         return c;
       }
-      return buildRecapPage(s.yd);
+      return buildRecapPage(sh.yd);
     };
 
     let s = 0, flipping = false;
-    const maxS = Math.ceil(sheets.length / 2) - 1;
+    const maxS = Math.ceil(sheets.length / per) - 1;
+
     const renderSpread = () => {
       pageL.innerHTML = ""; pageR.innerHTML = "";
-      pageL.appendChild(sheetEl(sheets[2 * s]));
-      pageR.appendChild(sheetEl(sheets[2 * s + 1]));
-      pageL.classList.toggle("can-flip", s > 0);
+      if (single) {
+        pageR.appendChild(sheetEl(sheets[s]));
+      } else {
+        pageL.appendChild(sheetEl(sheets[2 * s]));
+        pageR.appendChild(sheetEl(sheets[2 * s + 1]));
+      }
+      pageL.classList.toggle("can-flip", !single && s > 0);
       pageR.classList.toggle("can-flip", s < maxS);
     };
     renderSpread();
@@ -746,6 +786,18 @@
       if (ns < 0 || ns > maxS) return;
       flipping = true;
       Sound.blip(dir > 0 ? 470 : 410);
+
+      if (single) {
+        // mobile: the incoming page slides over the current one
+        const slide = el("div", "fb-slide " + (dir > 0 ? "from-right" : "from-left"));
+        slide.appendChild(sheetEl(sheets[ns]));
+        pageR.appendChild(slide);
+        requestAnimationFrame(() => requestAnimationFrame(() => slide.classList.add("go")));
+        setTimeout(() => { s = ns; renderSpread(); flipping = false; }, 560);
+        return;
+      }
+
+      // desktop: 3D page turn
       const flipper = el("div", "fb-flipper " + (dir > 0 ? "fwd" : "bwd"));
       const front = el("div", "fp-front");
       const back = el("div", "fp-back");
@@ -764,13 +816,22 @@
       setTimeout(() => { s = ns; renderSpread(); flipper.remove(); flipping = false; }, 1050);
     };
 
-    pageR.addEventListener("click", () => flip(1));
+    pageR.addEventListener("click", (e) => {
+      if (single) {
+        const r = pageR.getBoundingClientRect();
+        flip(e.clientX < r.left + r.width * 0.32 ? -1 : 1);
+      } else flip(1);
+    });
     pageL.addEventListener("click", () => flip(-1));
     const onKey = (e) => {
       if (e.key === "ArrowRight" || e.key === " ") flip(1);
       if (e.key === "ArrowLeft") flip(-1);
     };
     window.addEventListener("keydown", onKey);
+
+    // re-render if the viewport crosses the phone breakpoint (e.g. rotation)
+    const onMq = () => { if (location.hash.startsWith("#/book")) route(); };
+    mq.addEventListener("change", onMq);
 
     // autoplay: flip through the whole album, then loop back to year 1
     let autoTimer = null;
@@ -787,6 +848,7 @@
 
     cleanup = () => {
       window.removeEventListener("keydown", onKey);
+      mq.removeEventListener("change", onMq);
       if (autoTimer) clearTimeout(autoTimer);
     };
 

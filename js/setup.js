@@ -191,6 +191,8 @@
     out.brand = out.brand || {};
     if (musicBlob) out.brand.music = musicPath;        // a freshly dropped track
     else out.brand.music = DATA.brand.music || "";     // kept / cleared
+    out.brand.musicVolume = (DATA.brand.musicVolume >= 0 && DATA.brand.musicVolume <= 1)
+      ? +DATA.brand.musicVolume : 0.6;
     out.autoplay = out.autoplay || {};
     out.autoplay.speed = +DATA.autoplay.speed || 1;
     out.years = DATA.years.map((yd) => ({
@@ -453,6 +455,30 @@
     const $clear = document.getElementById("musicClear");
     const $preview = document.getElementById("musicPreview");
     const $speed = document.getElementById("speedSel");
+    const $vol = document.getElementById("volRange");
+    const $volPct = document.getElementById("volPct");
+    const $play = document.getElementById("musicPlay");
+
+    // music volume default (saved to content.json as brand.musicVolume)
+    let vol = +DATA.brand.musicVolume;
+    if (!(vol >= 0 && vol <= 1)) vol = 0.6;
+    DATA.brand.musicVolume = vol;
+    const applyVol = () => {
+      DATA.brand.musicVolume = +$vol.value;
+      $volPct.textContent = Math.round($vol.value * 100) + "%";
+      $preview.volume = +$vol.value;
+    };
+    $vol.value = String(vol);
+    $vol.addEventListener("input", applyVol);
+    applyVol();
+
+    // preview play/pause
+    $play.addEventListener("click", () => {
+      if (!$preview.src) { status("drop a music file first", true); return; }
+      if ($preview.paused) { $preview.play().catch(() => {}); $play.innerHTML = "&#10073;&#10073;"; }
+      else { $preview.pause(); $play.innerHTML = "&#9654;"; }
+    });
+    $preview.addEventListener("ended", () => ($play.innerHTML = "&#9654;"));
 
     const showMusic = () => {
       const label = musicBlob ? musicPath + "  (new — save to apply)" : (DATA.brand.music || "");

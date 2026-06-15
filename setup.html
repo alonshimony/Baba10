@@ -67,6 +67,8 @@
       color: #d9ecf2; font: 500 0.95rem "Space Grotesk", sans-serif; padding: 9px 12px;
     }
     #speedSel:focus { outline: 1px solid var(--gold); }
+    #volRange { width: 130px; accent-color: var(--accent); cursor: pointer; vertical-align: middle; }
+    .vol-pct { font-size: 0.82rem; color: rgba(217,236,242,0.7); min-width: 2.8em; font-variant-numeric: tabular-nums; }
 
     /* year section */
     .year-sec {
@@ -257,6 +259,12 @@
           <span id="musicName">drop an .mp3 here or click to choose</span>
         </div>
         <button class="pbtn" id="musicClear" title="remove music" type="button">&times;</button>
+      </div>
+      <div class="set-block">
+        <label class="set-cap" for="volRange">Music volume</label>
+        <button class="pbtn" id="musicPlay" title="preview" type="button">&#9654;</button>
+        <input type="range" id="volRange" min="0" max="1" step="0.05" />
+        <span id="volPct" class="vol-pct">60%</span>
       </div>
       <div class="set-block">
         <label class="set-cap" for="speedSel">Autoplay speed</label>

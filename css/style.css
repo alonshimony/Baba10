@@ -1010,7 +1010,21 @@ button { font: inherit; background: none; border: none; cursor: pointer; color: 
 .fb-hint {
   font-size: 0.78rem; letter-spacing: 0.18em; text-transform: uppercase;
   color: rgba(217, 236, 242, 0.55);
+  text-align: center;
 }
+
+/* mobile single-page slide transition */
+.fb-slide {
+  position: absolute; inset: 0; z-index: 6;
+  background: #fdfdfd;
+  overflow: hidden;
+  will-change: transform;
+  transition: transform 0.5s cubic-bezier(0.5, 0.05, 0.25, 1);
+  box-shadow: -8px 0 22px rgba(28, 31, 46, 0.18);
+}
+.fb-slide.from-right { transform: translateX(102%); }
+.fb-slide.from-left { transform: translateX(-102%); }
+.fb-slide.go { transform: translateX(0); }
 
 /* album row on the years index */
 .year-row-album .yr-num { color: var(--gold); -webkit-text-stroke: 0; font-size: 0.62em; }
@@ -1043,6 +1057,30 @@ button { font: inherit; background: none; border: none; cursor: pointer; color: 
 .auto-toggle { color: var(--accent); font-weight: 700; }
 .speed-toggle { font-weight: 700; font-variant-numeric: tabular-nums; min-width: 2.4em; text-align: center; }
 
+/* volume slider in the header */
+.vol-slider {
+  -webkit-appearance: none; appearance: none;
+  width: 72px; height: 4px;
+  border-radius: 4px;
+  background: currentColor;
+  opacity: 0.55;
+  cursor: pointer;
+  vertical-align: middle;
+  transition: opacity 0.2s;
+}
+.vol-slider:hover { opacity: 0.9; }
+.vol-slider::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 13px; height: 13px; border-radius: 50%;
+  background: var(--accent);
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 1px rgba(28, 31, 46, 0.3);
+}
+.vol-slider::-moz-range-thumb {
+  width: 13px; height: 13px; border-radius: 50%;
+  background: var(--accent); border: 2px solid #fff;
+}
+
 /* ---------- responsive ---------- */
 @media (max-width: 760px) {
   .hdr { padding: 12px 14px 0; font-size: 0.68rem; }
@@ -1057,4 +1095,26 @@ button { font: inherit; background: none; border: none; cursor: pointer; color: 
   .bubble { max-width: 88%; }
   .strip { gap: 52px; padding: 0 11vw; }
   .recap-page { width: 86vw; }
+
+  /* header gets crowded on phones — keep SOUND + volume, hide big-screen autoplay chips
+     (autoplay is still reachable from the Years list and the #/play link) */
+  .hdr-right { gap: 9px; }
+  .sound-toggle { font-size: 0.66rem; letter-spacing: 0.08em; }
+  .auto-toggle, .speed-toggle { display: none; }
+  .vol-slider { width: 56px; }
+
+  /* finale album: single portrait page, no 3D spread */
+  .book-single .finale-book { perspective: none; gap: 12px; }
+  .book-single .fb-spread {
+    width: min(92vw, 460px);
+    height: min(74vh, 640px);
+    filter: drop-shadow(0 16px 34px rgba(8, 10, 22, 0.6));
+  }
+  .book-single .fb-left { display: none; }
+  .book-single .fb-right {
+    width: 100%;
+    border-radius: 8px;
+    border-left-width: 3px;
+  }
+  .book-single .fb-left::after, .book-single .fb-right::after { display: none; }
 }
