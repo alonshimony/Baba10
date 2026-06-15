@@ -30,6 +30,8 @@ Open **`setup.html`** through the local server (e.g. `http://localhost:4173/setu
   to hear it. On the live site a volume slider sits in the header and is remembered per device.
 - **Autoplay speed**: set the default play speed (0.5×–3×). During playback you can also tap the
   speed chip in the header to change it live; it's remembered for the session.
+- **Autoplay repeat**: "loop forever" (default on) replays the whole show endlessly for kiosks;
+  turn it off to stop on the closed book at the end. Saved as `autoplay.loop`.
 
 On phones, the finale album shows **one page at a time** (tap right to turn the page, left to go back)
 instead of the desktop two-page spread.

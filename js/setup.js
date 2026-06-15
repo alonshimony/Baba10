@@ -195,6 +195,7 @@
       ? +DATA.brand.musicVolume : 0.6;
     out.autoplay = out.autoplay || {};
     out.autoplay.speed = +DATA.autoplay.speed || 1;
+    out.autoplay.loop = DATA.autoplay.loop !== false;
     out.years = DATA.years.map((yd) => ({
       year: yd.year,
       label: yd.label,
@@ -508,6 +509,12 @@
     if ([...$speed.options].some((o) => o.value === sp)) $speed.value = sp;
     $speed.addEventListener("change", () => (DATA.autoplay.speed = +$speed.value));
     DATA.autoplay.speed = +$speed.value;
+
+    // loop forever (repeat the whole show) — default on
+    const $loop = document.getElementById("loopChk");
+    $loop.checked = DATA.autoplay.loop !== false;
+    DATA.autoplay.loop = $loop.checked;
+    $loop.addEventListener("change", () => (DATA.autoplay.loop = $loop.checked));
 
     const audioPick = document.createElement("input");
     audioPick.type = "file"; audioPick.accept = "audio/*"; audioPick.hidden = true;

@@ -69,6 +69,8 @@
     #speedSel:focus { outline: 1px solid var(--gold); }
     #volRange { width: 130px; accent-color: var(--accent); cursor: pointer; vertical-align: middle; }
     .vol-pct { font-size: 0.82rem; color: rgba(217,236,242,0.7); min-width: 2.8em; font-variant-numeric: tabular-nums; }
+    .loop-check { display: inline-flex; align-items: center; gap: 7px; font-size: 0.9rem; color: #d9ecf2; cursor: pointer; }
+    .loop-check input { width: 16px; height: 16px; accent-color: var(--accent); cursor: pointer; }
 
     /* year section */
     .year-sec {
@@ -275,6 +277,10 @@
           <option value="2">2× fast</option>
           <option value="3">3× very fast</option>
         </select>
+      </div>
+      <div class="set-block">
+        <label class="set-cap">Autoplay repeat</label>
+        <label class="loop-check"><input type="checkbox" id="loopChk" /> loop forever</label>
       </div>
     </div>
 

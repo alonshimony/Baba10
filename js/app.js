@@ -191,6 +191,7 @@
     RATES: [0.5, 1, 1.5, 2, 3],
     rate: parseFloat(sessionStorage.getItem("baba10-speed")) ||
           (DATA.autoplay && +DATA.autoplay.speed) || 1,
+    loop: !(DATA.autoplay && DATA.autoplay.loop === false), // repeat the whole show forever unless turned off
     rateLabel() { return (Number.isInteger(this.rate) ? this.rate : this.rate.toFixed(1)) + "×"; },
     cycleRate() {
       const i = this.RATES.indexOf(this.rate);
@@ -706,7 +707,7 @@
     const auto = el("a", "year-row year-row-album year-row-auto");
     auto.style.setProperty("--i", YEARS.length + 1);
     auto.href = "#/year/" + YEARS[0].year;
-    auto.append(el("span", "yr-num", "▶ AUTOPLAY"), el("span", "yr-title", "hands-free, loops forever"));
+    auto.append(el("span", "yr-num", "▶ AUTOPLAY"), el("span", "yr-title", Auto.loop ? "hands-free, loops forever" : "hands-free, plays once"));
     auto.addEventListener("click", (e) => {
       e.preventDefault();
       Auto.enable();
@@ -732,42 +733,55 @@
     const pageR = el("div", "fb-page fb-right");
     spreadEl.append(pageL, pageR);
     bookEl.appendChild(spreadEl);
+
+    // the closed-book finale (centered, no stray white page)
+    const closedEl = el("div", "fb-closed");
+    const closedBook = el("div", "fb-closed-book");
+    closedBook.append(
+      el("div", "fbc-top", esc(DATA.book.endTitle)),
+      el("div", "fbc-bottom", esc(DATA.brand.logoTop) + " " + esc(DATA.brand.logoBottom)),
+      el("div", "fbc-sub", esc(DATA.book.endNote)),
+      el("div", "fbc-press", "click to start over")
+    );
+    closedBook.appendChild(badge10());
+    closedEl.appendChild(closedBook);
+    bookEl.appendChild(closedEl);
+
     bookEl.appendChild(el("div", "fb-hint",
       single ? "tap the right side to turn the page · left side to go back" : esc(DATA.book.flipHint)));
     page.appendChild(bookEl);
 
-    // sheets: cover, one recap per year, end note
+    // content sheets: cover + one recap per year (NO separate end sheet — the end is the closed book)
     const sheets = [{ type: "cover" }];
     YEARS.forEach((yd) => sheets.push({ type: "year", yd }));
-    sheets.push({ type: "end" });
-    while (sheets.length % per) sheets.push({ type: "blank" });
+    while (sheets.length % per) sheets.push({ type: "blankdark" }); // dark filler, never white
 
     const sheetEl = (sh) => {
-      if (!sh || sh.type === "blank") return el("div", "fb-blank");
-      if (sh.type === "cover" || sh.type === "end") {
+      if (!sh || sh.type === "blankdark") return el("div", "fb-blank dark");
+      if (sh.type === "cover") {
         const c = el("div", "fb-cover-page");
-        if (sh.type === "cover") {
-          c.append(
-            el("div", "fbc-top", esc(DATA.brand.logoTop)),
-            el("div", "fbc-bottom", esc(DATA.brand.logoBottom)),
-            el("div", "fbc-sub", esc(DATA.book.coverSub))
-          );
-          c.appendChild(badge10());
-        } else {
-          c.append(
-            el("div", "fbc-top", esc(DATA.book.endTitle)),
-            el("div", "fbc-sub", esc(DATA.book.endNote))
-          );
-        }
+        c.append(
+          el("div", "fbc-top", esc(DATA.brand.logoTop)),
+          el("div", "fbc-bottom", esc(DATA.brand.logoBottom)),
+          el("div", "fbc-sub", esc(DATA.book.coverSub))
+        );
+        c.appendChild(badge10());
         return c;
       }
       return buildRecapPage(sh.yd);
     };
 
     let s = 0, flipping = false;
-    const maxS = Math.ceil(sheets.length / per) - 1;
+    const contentViews = Math.ceil(sheets.length / per);
+    const closedIndex = contentViews;   // the final, centered, closed-book view
+    const maxS = closedIndex;
 
-    const renderSpread = () => {
+    const renderView = () => {
+      const closed = s === closedIndex;
+      page.classList.toggle("on-closed", closed);
+      closedEl.classList.toggle("show", closed);
+      spreadEl.classList.toggle("hidden-soft", closed);
+      if (closed) return;
       pageL.innerHTML = ""; pageR.innerHTML = "";
       if (single) {
         pageR.appendChild(sheetEl(sheets[s]));
@@ -778,7 +792,7 @@
       pageL.classList.toggle("can-flip", !single && s > 0);
       pageR.classList.toggle("can-flip", s < maxS);
     };
-    renderSpread();
+    renderView();
 
     const flip = (dir) => {
       if (flipping) return;
@@ -787,13 +801,24 @@
       flipping = true;
       Sound.blip(dir > 0 ? 470 : 410);
 
+      // closing the book (or re-opening it) — animate the centered closed cover in/out
+      if (ns === closedIndex || s === closedIndex) {
+        if (ns === closedIndex) {
+          Sound.blip(392); setTimeout(() => Sound.blip(523), 140); setTimeout(() => Sound.blip(659), 280);
+          Confetti.burst(innerWidth / 2, innerHeight / 2.4, 120);
+        }
+        s = ns; renderView();
+        setTimeout(() => { flipping = false; }, 780);
+        return;
+      }
+
       if (single) {
         // mobile: the incoming page slides over the current one
         const slide = el("div", "fb-slide " + (dir > 0 ? "from-right" : "from-left"));
         slide.appendChild(sheetEl(sheets[ns]));
         pageR.appendChild(slide);
         requestAnimationFrame(() => requestAnimationFrame(() => slide.classList.add("go")));
-        setTimeout(() => { s = ns; renderSpread(); flipping = false; }, 560);
+        setTimeout(() => { s = ns; renderView(); flipping = false; }, 560);
         return;
       }
 
@@ -813,8 +838,11 @@
       flipper.append(front, back);
       spreadEl.appendChild(flipper);
       requestAnimationFrame(() => requestAnimationFrame(() => flipper.classList.add("go")));
-      setTimeout(() => { s = ns; renderSpread(); flipper.remove(); flipping = false; }, 1050);
+      setTimeout(() => { s = ns; renderView(); flipper.remove(); flipping = false; }, 1050);
     };
+
+    // the closed book restarts the whole show
+    closedEl.addEventListener("click", () => transitionTo("#/year/" + YEARS[0].year));
 
     pageR.addEventListener("click", (e) => {
       if (single) {
@@ -833,15 +861,19 @@
     const onMq = () => { if (location.hash.startsWith("#/book")) route(); };
     mq.addEventListener("change", onMq);
 
-    // autoplay: flip through the whole album, then loop back to year 1
+    // autoplay: flip through the album, close the book, then loop back (or stop)
     let autoTimer = null;
     if (Auto.on) {
       const step = () => {
         if (!Auto.on) { autoTimer = null; return; }
         const wait = 4200 / Auto.rate;
         if (flipping) { autoTimer = setTimeout(step, 250); return; }
-        if (s < maxS) { flip(1); autoTimer = setTimeout(step, wait); }
-        else { autoTimer = setTimeout(() => { if (Auto.on) transitionTo("#/year/" + YEARS[0].year); }, wait); }
+        if (s < closedIndex) { flip(1); autoTimer = setTimeout(step, wait); }
+        else if (Auto.loop) {
+          autoTimer = setTimeout(() => { if (Auto.on) transitionTo("#/year/" + YEARS[0].year); }, wait);
+        } else {
+          Auto.disable(); // reached the end and looping is off — stop on the closed book
+        }
       };
       autoTimer = setTimeout(step, 4200 / Auto.rate);
     }

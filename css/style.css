@@ -953,6 +953,45 @@ button { font: inherit; background: none; border: none; cursor: pointer; color: 
 .fb-page .recap-row, .fb-flipper .recap-row { opacity: 1; animation: none; aspect-ratio: auto; }
 
 .fb-blank { width: 100%; height: 100%; background: #fdfdfd; }
+/* filler page styled as book material, never a jarring white rectangle */
+.fb-blank.dark { background: linear-gradient(155deg, #2f3658 0%, var(--navy) 60%, var(--navy-deep) 100%); }
+
+/* closed-book finale — centered, replaces the old "end page + white blank" */
+.fb-closed {
+  position: absolute; inset: 0; z-index: 8;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0;
+  transform: scale(0.66) rotateY(-22deg);
+  transform-origin: center;
+  transition: opacity 0.55s ease, transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+.fb-closed.show { opacity: 1; transform: none; pointer-events: auto; }
+.fb-closed-book {
+  position: relative;
+  width: min(46vh, 360px); aspect-ratio: 0.72;
+  background: linear-gradient(155deg, #2f3658 0%, var(--navy) 55%, var(--navy-deep) 100%);
+  border: 3px solid var(--ink);
+  border-radius: 3px 9px 9px 3px;
+  box-shadow: 0 22px 46px rgba(8, 10, 22, 0.6);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 8px; text-align: center; padding: 26px;
+  cursor: pointer;
+}
+/* spine shading on the closed book */
+.fb-closed-book::before {
+  content: ""; position: absolute; top: 0; bottom: 0; left: 0; width: 14px;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.45), transparent);
+  border-radius: 3px 0 0 3px;
+}
+.fb-closed-book .fbc-press {
+  margin-top: 18px; font-family: var(--font-hand); font-size: 1.05rem; color: var(--gold);
+  animation: press-pulse 1.9s ease-in-out infinite;
+}
+
+/* spread fades back while the book is closed */
+.fb-spread { transition: opacity 0.45s ease, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1); }
+.fb-spread.hidden-soft { opacity: 0; transform: scale(0.82); pointer-events: none; }
 
 .fb-cover-page {
   width: 100%; height: 100%;
@@ -1083,12 +1122,21 @@ button { font: inherit; background: none; border: none; cursor: pointer; color: 
 
 /* ---------- responsive ---------- */
 @media (max-width: 760px) {
-  .hdr { padding: 12px 14px 0; font-size: 0.68rem; }
-  .hdr-left .hdr-title-txt { display: none; }
-  .logo-card { min-width: 92px; padding: 5px 9px 4px; }
-  .logo-top { font-size: 0.82rem; }
-  .logo-bottom { font-size: 0.62rem; }
-  .hdr-center { gap: 12px; }
+  /* phones: stack the header into two centered rows so nothing overlaps —
+     row 1 = nav + logo, row 2 = SOUND + volume. The chapter label is dropped. */
+  .hdr {
+    flex-direction: column;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 12px 0;
+    font-size: 0.66rem;
+  }
+  .hdr-left { display: none; }
+  .hdr-center { position: static; transform: none; align-items: center; gap: 18px; }
+  .hdr-center .hdr-link { margin-top: 0; }
+  .logo-card { min-width: 84px; padding: 5px 9px 4px; }
+  .logo-top { font-size: 0.76rem; }
+  .logo-bottom { font-size: 0.58rem; margin-bottom: 6px; }
   .ftr { padding: 0 14px 12px; font-size: 0.7rem; }
   .ftr-center { display: none; }
   .panel { width: 78vw; }
@@ -1096,12 +1144,12 @@ button { font: inherit; background: none; border: none; cursor: pointer; color: 
   .strip { gap: 52px; padding: 0 11vw; }
   .recap-page { width: 86vw; }
 
-  /* header gets crowded on phones — keep SOUND + volume, hide big-screen autoplay chips
+  /* keep SOUND + volume, hide big-screen autoplay chips
      (autoplay is still reachable from the Years list and the #/play link) */
-  .hdr-right { gap: 9px; }
-  .sound-toggle { font-size: 0.66rem; letter-spacing: 0.08em; }
+  .hdr-right { gap: 14px; }
+  .sound-toggle { font-size: 0.68rem; letter-spacing: 0.08em; opacity: 0.85; }
   .auto-toggle, .speed-toggle { display: none; }
-  .vol-slider { width: 56px; }
+  .vol-slider { width: 72px; }
 
   /* finale album: single portrait page, no 3D spread */
   .book-single .finale-book { perspective: none; gap: 12px; }
