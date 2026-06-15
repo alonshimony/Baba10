@@ -9,7 +9,7 @@
     "startYear": 2016,
     "endYear": 2026,
     "music": "audio/track.mp3",
-    "musicVolume": 0.6
+    "musicVolume": 0.35
   },
   "intro": {
     "soundHint": "enable sound for a better experience",
@@ -525,8 +525,8 @@
       "panels": [
         {
           "photo": "photos/2025-01.jpg",
-          "bubble": "2025. Ten years strong, and just warming up.",
-          "bubblePos": "top-left"
+          "bubble": "2025. nine years strong, and just warming up.",
+          "bubblePos": "bottom-right"
         },
         {
           "photo": "photos/2025-02.jpg",
@@ -553,12 +553,12 @@
         {
           "photo": "photos/2026-01.jpg",
           "bubble": "2026. TEN YEARS OF BABA. Cue the confetti!",
-          "bubblePos": "top-left"
+          "bubblePos": "bottom-left"
         },
         {
           "photo": "photos/2026-02.jpg",
           "bubble": "\"To the next ten — may every spin be a win.\"",
-          "bubblePos": "top-right"
+          "bubblePos": "bottom-left"
         },
         {
           "photo": "photos/2026-03.jpg",
@@ -568,7 +568,7 @@
         {
           "photo": "photos/2026-04.jpg",
           "bubble": "THE END... of chapter one. See you in 2036.",
-          "bubblePos": "top-right"
+          "bubblePos": "bottom-left"
         }
       ]
     }
