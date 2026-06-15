@@ -448,6 +448,21 @@
           "photo": "photos/2023-09.jpg",
           "bubble": "Let the MANIA START !! Developing a new casual game called Match Mania!",
           "bubblePos": "top-left"
+        },
+        {
+          "photo": "photos/2023-10.jpg",
+          "bubble": "Baba Mania Party!! We never forget to have fun!",
+          "bubblePos": "top-right"
+        },
+        {
+          "photo": "photos/2023-11.jpg",
+          "bubble": "and Celebrate the important milestone we crashed!",
+          "bubblePos": "bottom-right"
+        },
+        {
+          "photo": "photos/2023-12.jpg",
+          "bubble": "And also never forget our roots!",
+          "bubblePos": "bottom-right"
         }
       ]
     },
@@ -458,23 +473,48 @@
       "panels": [
         {
           "photo": "photos/2024-01.jpg",
-          "bubble": "2024. Full throttle. Every team firing at once.",
+          "bubble": "2024. Really? Planning new office again ?  This time FROM SCRATCH! ",
           "bubblePos": "top-left"
         },
         {
           "photo": "photos/2024-02.jpg",
-          "bubble": "\"Ship it. SHIP IT!\"",
+          "bubble": "Not before celebrating another New Year at Baba!",
           "bubblePos": "top-right"
         },
         {
           "photo": "photos/2024-03.jpg",
-          "bubble": "Records broken. Then broken again a month later.",
+          "bubble": "Our new Baba headquarters, first time fully planed by Baba !  Welcome Home!",
           "bubblePos": "bottom-left"
         },
         {
           "photo": "photos/2024-04.jpg",
-          "bubble": "A decade in the making — and it shows.",
+          "bubble": "Really?? You must be pro by now!",
           "bubblePos": "top-right"
+        },
+        {
+          "photo": "photos/2024-05.jpg",
+          "bubble": "Working on our new flagship game Baba Casino!",
+          "bubblePos": "top-right"
+        },
+        {
+          "photo": "photos/2024-06.jpg",
+          "bubble": "Everybody wants to join BABA",
+          "bubblePos": "top-left"
+        },
+        {
+          "photo": "photos/2024-07.jpg",
+          "bubble": "Getting ready to take the new market by storm!",
+          "bubblePos": "bottom-left"
+        },
+        {
+          "photo": "photos/2024-08.jpg",
+          "bubble": "Refining monetization before launch...",
+          "bubblePos": "bottom-right"
+        },
+        {
+          "photo": "photos/2024-09.jpg",
+          "bubble": "Launching our most successful game ever! Baba Casino Is LIVE!",
+          "bubblePos": "bottom-right"
         }
       ]
     },
