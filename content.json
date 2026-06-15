@@ -223,8 +223,23 @@
         },
         {
           "photo": "photos/2019-06.jpg",
-          "bubble": "Keep the games rolling...",
-          "bubblePos": "top-right"
+          "bubble": "Moving up the ladder!",
+          "bubblePos": "bottom-left"
+        },
+        {
+          "photo": "photos/2019-07.jpg",
+          "bubble": "Adding features to our lobby",
+          "bubblePos": "bottom-right"
+        },
+        {
+          "photo": "photos/2019-08.jpg",
+          "bubble": "And keep the games rolling! ",
+          "bubblePos": "top-left"
+        },
+        {
+          "photo": "photos/2019-09.jpg",
+          "bubble": "New innovative Story feature, first of its kind!",
+          "bubblePos": "top-left"
         }
       ]
     },
@@ -272,6 +287,11 @@
           "photo": "photos/2020-08.jpg",
           "bubble": "Creating new games, and doing proper QA on them :)",
           "bubblePos": "bottom-left"
+        },
+        {
+          "photo": "photos/2020-09.jpg",
+          "bubble": "New breath taking mobile lobby!  LIVE!",
+          "bubblePos": "top-left"
         }
       ]
     },
@@ -302,13 +322,28 @@
         },
         {
           "photo": "photos/2021-05.jpg",
-          "bubble": "And yes... we move to a new office! ",
+          "bubble": "Amazing new slots, fresh out of Baba factory!",
           "bubblePos": "top-left"
         },
         {
           "photo": "photos/2021-06.jpg",
+          "bubble": "And yes... we move to a new office! ",
+          "bubblePos": "top-left"
+        },
+        {
+          "photo": "photos/2021-07.jpg",
           "bubble": "And as always, started right to work :)",
           "bubblePos": "top-right"
+        },
+        {
+          "photo": "photos/2021-08.jpg",
+          "bubble": "New breath taking feature! the SQUADS! LIVE!",
+          "bubblePos": "bottom-left"
+        },
+        {
+          "photo": "photos/2021-09.jpg",
+          "bubble": "Monetization keeps getting better and better",
+          "bubblePos": "bottom-right"
         }
       ]
     },
@@ -320,22 +355,42 @@
         {
           "photo": "photos/2022-01.jpg",
           "bubble": "2022. Playing in the big league now.",
-          "bubblePos": "top-left"
+          "bubblePos": "bottom-right"
         },
         {
           "photo": "photos/2022-02.jpg",
-          "bubble": "\"Top charts. Don't blink.\"",
-          "bubblePos": "top-right"
-        },
-        {
-          "photo": "photos/2022-03.jpg",
-          "bubble": "New office floor. We filled it in three months.",
+          "bubble": "\"Starting the year with a BANG!!  PS5 for EVERY BABAs\"",
           "bubblePos": "bottom-left"
         },
         {
+          "photo": "photos/2022-03.jpg",
+          "bubble": "Assessing amazing results",
+          "bubblePos": "bottom-right"
+        },
+        {
           "photo": "photos/2022-04.jpg",
-          "bubble": "Work hard, party harder — Baba style.",
+          "bubble": "Work hard, train harder — Baba style. Dare to be great!",
+          "bubblePos": "bottom-left"
+        },
+        {
+          "photo": "photos/2022-05.jpg",
+          "bubble": "We did it again! Releasing new meta game!",
+          "bubblePos": "top-left"
+        },
+        {
+          "photo": "photos/2022-06.jpg",
+          "bubble": "Congratulations!! Its a PET :)",
           "bubblePos": "top-right"
+        },
+        {
+          "photo": "photos/2022-07.jpg",
+          "bubble": "Our most unique feature ever released, the Pet, monetization and gamification of the highest level",
+          "bubblePos": "bottom-left"
+        },
+        {
+          "photo": "photos/2022-08.jpg",
+          "bubble": "We must compete in a league by now!",
+          "bubblePos": "bottom-right"
         }
       ]
     },
