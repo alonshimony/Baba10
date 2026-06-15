@@ -540,7 +540,12 @@
         },
         {
           "photo": "photos/2025-04.jpg",
-          "bubble": "The best chapter? Still being written.",
+          "bubble": "Everybody having fun!",
+          "bubblePos": "top-left"
+        },
+        {
+          "photo": "photos/2025-05.jpg",
+          "bubble": "Revenue EXPLODING !! 2025 is by far the strongest year we ever had!!",
           "bubblePos": "top-left"
         }
       ]
@@ -567,6 +572,11 @@
         },
         {
           "photo": "photos/2026-04.jpg",
+          "bubble": "Guess what?? Q1 2026 is sky rocketing!  In one quarter we done more revenue then of half 2025 !! ",
+          "bubblePos": "top-left"
+        },
+        {
+          "photo": "photos/2026-05.jpg",
           "bubble": "THE END... of chapter one. See you in 2036.",
           "bubblePos": "bottom-left"
         }
