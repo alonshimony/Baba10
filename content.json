@@ -7,7 +7,8 @@
     "tagline": "TEN YEARS OF BABA... a decade of play: a story of slots, spins and friends.",
     "credit": "baba entertainment",
     "startYear": 2016,
-    "endYear": 2026
+    "endYear": 2026,
+    "music": "audio/track.mp3"
   },
   "intro": {
     "soundHint": "enable sound for a better experience",
@@ -355,5 +356,8 @@
         }
       ]
     }
-  ]
+  ],
+  "autoplay": {
+    "speed": 1
+  }
 }
