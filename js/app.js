@@ -651,23 +651,31 @@
 
       const vw = window.innerWidth;
       panels.forEach((p) => {
-        if (p.classList.contains("on")) return;
-        const r = p.getBoundingClientRect();
-        if (r.left < vw * 0.82) {
-          p.classList.add("on");
-          revealed++;
-          if (p.classList.contains("recap")) absorb();
-          const isEnd = p.classList.contains("end-card");
-          Confetti.burst(
-            Math.min(r.left + r.width / 2, vw - 60),
-            Math.max(70, r.top + r.height * 0.25),
-            isEnd ? 90 : 16
-          );
-          if (isEnd) {
-            Sound.blip(523); setTimeout(() => Sound.blip(659), 130); setTimeout(() => Sound.blip(784), 260);
-          } else {
-            Sound.blip(520 + revealed * 60);
+        const isRecap = p.classList.contains("recap");
+        if (!p.classList.contains("on")) {
+          const r = p.getBoundingClientRect();
+          if (r.left < vw * 0.82) {
+            p.classList.add("on");
+            revealed++;
+            const isEnd = p.classList.contains("end-card");
+            Confetti.burst(
+              Math.min(r.left + r.width / 2, vw - 60),
+              Math.max(70, r.top + r.height * 0.25),
+              isEnd ? 90 : 16
+            );
+            if (isEnd) {
+              Sound.blip(523); setTimeout(() => Sound.blip(659), 130); setTimeout(() => Sound.blip(784), 260);
+            } else {
+              Sound.blip(520 + revealed * 60);
+            }
           }
+        }
+        // "build" the recap (photos fly in) only once it's well onto the screen, so the
+        // last photo gets its moment instead of being yanked away the instant the recap appears
+        if (isRecap && p.classList.contains("on") && !p.classList.contains("building")
+            && p.getBoundingClientRect().left < vw * 0.46) {
+          p.classList.add("building");
+          absorb();
         }
       });
 
