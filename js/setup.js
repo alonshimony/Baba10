@@ -462,6 +462,62 @@
     setTimeout(() => URL.revokeObjectURL(a.href), 4000);
   }
 
+  /* ---------------- import an existing content.json ---------------- */
+  // replace the working data with an uploaded content.json and refresh the whole editor
+  function applyData(d) {
+    DATA = d;
+    DATA.brand = DATA.brand || {};
+    DATA.autoplay = DATA.autoplay || {};
+    // any in-memory photos/music belong to the old data — drop them
+    musicBlob = null; musicSaved = false; musicPath = "";
+
+    // refresh the settings controls from the new data
+    const $speed = document.getElementById("speedSel");
+    const sp = String(+DATA.autoplay.speed || 1);
+    $speed.value = [...$speed.options].some((o) => o.value === sp) ? sp : "1";
+    DATA.autoplay.speed = +$speed.value;
+
+    const $loop = document.getElementById("loopChk");
+    $loop.checked = DATA.autoplay.loop !== false;
+    DATA.autoplay.loop = $loop.checked;
+
+    let vol = +DATA.brand.musicVolume;
+    if (!(vol >= 0 && vol <= 1)) vol = 0.6;
+    DATA.brand.musicVolume = vol;
+    document.getElementById("volRange").value = String(vol);
+    document.getElementById("volPct").textContent = Math.round(vol * 100) + "%";
+    const $preview = document.getElementById("musicPreview");
+    if ($preview) { $preview.pause(); $preview.removeAttribute("src"); }
+
+    document.getElementById("musicName").textContent =
+      DATA.brand.music || "drop an .mp3 here or click to choose";
+    document.getElementById("musicDrop").classList.toggle("has", !!DATA.brand.music);
+
+    render();
+  }
+
+  function loadJsonFile(file) {
+    if (!file) return;
+    if (!/\.json$/i.test(file.name) && file.type !== "application/json") {
+      status("that's not a .json file", true); return;
+    }
+    const fr = new FileReader();
+    fr.onload = () => {
+      try {
+        const d = JSON.parse(fr.result);
+        if (!d || !Array.isArray(d.years)) throw new Error("missing a \"years\" list");
+        applyData(d);
+        status("loaded " + file.name + " ✓ — edit, then save (photos are referenced by path)");
+      } catch (e) { status("couldn't read that JSON: " + e.message, true); }
+    };
+    fr.onerror = () => status("couldn't read the file", true);
+    fr.readAsText(file);
+  }
+
+  const $jsonPick = document.getElementById("jsonPick");
+  document.getElementById("loadJson").addEventListener("click", () => { $jsonPick.value = ""; $jsonPick.click(); });
+  $jsonPick.addEventListener("change", () => loadJsonFile($jsonPick.files[0]));
+
   /* ---------------- settings: background music + autoplay speed ---------------- */
   function initSettings() {
     DATA.brand = DATA.brand || {};

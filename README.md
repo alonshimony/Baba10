@@ -45,6 +45,9 @@ instead of the desktop two-page spread.
   redeploys automatically, so the live site updates in about a minute. The token stays in your
   browser (localStorage if "remember" is ticked); it is never part of the site itself.
 - On browsers without folder access, use the **Download** buttons and add the files manually.
+- **Load content.json**: import an existing or backed-up `content.json` (e.g. one you downloaded
+  earlier, or the live site's file) to keep editing it. Photos are referenced by their paths —
+  drop the matching image files into `photos/` (or re-upload them) before saving.
 
 ### Hosting on Vercel
 
