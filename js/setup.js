@@ -26,7 +26,7 @@
   const blobs = new WeakMap(); // panel -> { blob, url }
 
   // background-music state (a new mp3 the user dropped, not yet saved)
-  let musicBlob = null, musicPath = "";
+  let musicBlob = null, musicPath = "", musicSaved = false;
 
   function status(msg, err) {
     $status.textContent = msg;
@@ -209,18 +209,28 @@
     return out;
   }
 
+  const imageName = (yd, i) => yd.year + "-" + String(i + 1).padStart(2, "0") + ".jpg";
+
+  // only photos that still need writing: freshly dropped, replaced, or moved to a new
+  // filename — ones already saved under their current name this session are skipped.
   function newImages() {
     const list = [];
     DATA.years.forEach((yd) => yd.panels.forEach((p, i) => {
       const st = blobs.get(p);
-      if (st) list.push({ name: yd.year + "-" + String(i + 1).padStart(2, "0") + ".jpg", blob: st.blob });
+      if (!st) return;
+      const name = imageName(yd, i);
+      if (st.savedAs === name) return; // unchanged since the last save → don't re-upload
+      list.push({ name, blob: st.blob, entry: st });
     }));
     return list;
   }
+  // remember what we just wrote so the next save skips these unchanged photos
+  function markImagesSaved(list) { list.forEach((im) => { if (im.entry) im.entry.savedAs = im.name; }); }
 
-  // a freshly dropped music file to write, or null
+  // a freshly dropped music file to write, or null (skipped once it's been saved)
   function newAudio() {
-    return musicBlob ? { name: musicPath.replace(/^audio\//, ""), path: musicPath, blob: musicBlob } : null;
+    if (!musicBlob || musicSaved) return null;
+    return { name: musicPath.replace(/^audio\//, ""), path: musicPath, blob: musicBlob };
   }
 
   // primary: write straight into the picked baba-ten folder
@@ -256,7 +266,11 @@
       const jw = await jh.createWritable();
       await jw.write(JSON.stringify(cleanData(), null, 2) + "\n");
       await jw.close();
-      status("saved content.json + " + imgs.length + " photo(s)" + (aud ? " + music" : "") + " ✓  — reload the site to see it");
+      markImagesSaved(imgs);
+      if (aud) musicSaved = true;
+      status("saved content.json" +
+        (imgs.length ? " + " + imgs.length + " new photo(s)" : "") +
+        (aud ? " + music" : "") + " ✓  — reload the site to see it");
     } catch (e) {
       if (e.name !== "AbortError") status("save failed: " + e.message, true);
     }
@@ -378,7 +392,9 @@
         body: JSON.stringify({ sha: commit.sha }),
       }).then(async (r) => { if (!r.ok) throw new Error("GitHub " + r.status + ": could not update branch " + branch); });
 
-      status(`pushed to ${ghRepo}@${branch} ✓ — Vercel is redeploying, the live site updates in ~1 minute`);
+      markImagesSaved(imgs);
+      if (aud) musicSaved = true;
+      status(`pushed ${imgs.length} new photo(s)${aud ? " + music" : ""} + content.json to ${ghRepo}@${branch} ✓ — Vercel redeploys in ~1 minute`);
     } catch (e) {
       status(e.message, true);
     } finally {
@@ -500,7 +516,7 @@
     async function takeAudio(files) {
       const f = [...files].find((x) => x.type.startsWith("audio/") || /\.(mp3|m4a|ogg|wav)$/i.test(x.name));
       if (!f) { status("that's not an audio file", true); return; }
-      musicBlob = f;
+      musicBlob = f; musicSaved = false;
       const ext = (f.name.match(/\.(mp3|m4a|ogg|wav)$/i) || [".mp3"])[0].toLowerCase();
       musicPath = "audio/track" + ext;
       try { $preview.src = URL.createObjectURL(f); } catch {}
@@ -520,6 +536,11 @@
     });
   }
   initSettings();
+
+  // inert unless ?debug — lets the dirty-tracking logic be exercised in tests
+  if (location.search.includes("debug")) {
+    window.__baba = { newImages, markImagesSaved, addFiles, get years() { return DATA.years; } };
+  }
 
   render();
 })();
