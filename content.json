@@ -282,23 +282,33 @@
       "panels": [
         {
           "photo": "photos/2021-01.jpg",
-          "bubble": "2021. Back to the office. The coffee machine missed us.",
-          "bubblePos": "top-left"
-        },
-        {
-          "photo": "photos/2021-02.jpg",
-          "bubble": "\"New game. New engine. New everything.\"",
+          "bubble": "2021. Baba brand!! Welcome to Baba!. Wait... we are not moving to a new office?",
           "bubblePos": "top-right"
         },
         {
+          "photo": "photos/2021-02.jpg",
+          "bubble": "Marketing team busy as always!",
+          "bubblePos": "bottom-right"
+        },
+        {
           "photo": "photos/2021-03.jpg",
-          "bubble": "The biggest launch in Baba history — so far.",
+          "bubble": "And the team kept growing. And growing.",
           "bubblePos": "bottom-right"
         },
         {
           "photo": "photos/2021-04.jpg",
-          "bubble": "And the team kept growing. And growing.",
+          "bubble": "Baba Happy Day, Celebrating 5 years to Baba!",
           "bubblePos": "top-left"
+        },
+        {
+          "photo": "photos/2021-05.jpg",
+          "bubble": "And yes... we move to a new office! ",
+          "bubblePos": "top-left"
+        },
+        {
+          "photo": "photos/2021-06.jpg",
+          "bubble": "And as always, started right to work :)",
+          "bubblePos": "top-right"
         }
       ]
     },
