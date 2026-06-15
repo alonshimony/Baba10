@@ -8,7 +8,8 @@
     "credit": "baba entertainment",
     "startYear": 2016,
     "endYear": 2026,
-    "music": "audio/track.mp3"
+    "music": "audio/track.mp3",
+    "musicVolume": 0.6
   },
   "intro": {
     "soundHint": "enable sound for a better experience",
@@ -55,11 +56,6 @@
           "bubblePos": "top-right"
         },
         {
-          "photo": "photos/2016-02.jpg",
-          "bubble": "Happy at the start line, ready to take on the world!",
-          "bubblePos": "bottom-left"
-        },
-        {
           "photo": "photos/2016-03.jpg",
           "bubble": "And just like that... started to work around the clock.",
           "bubblePos": "top-right"
@@ -68,6 +64,11 @@
           "photo": "photos/2016-04.jpg",
           "bubble": "And work…",
           "bubblePos": "bottom-right"
+        },
+        {
+          "photo": "photos/2016-02.jpg",
+          "bubble": "First Purchase EVER!!! of $0.99 USD!! We are rich!",
+          "bubblePos": "bottom-left"
         },
         {
           "photo": "photos/2016-05.jpg",
@@ -81,8 +82,18 @@
         },
         {
           "photo": "photos/2016-07.jpg",
-          "bubble": "Competing face to face with Pixis team ! ",
+          "bubble": "Competing face to face with Pixi's team ! ",
           "bubblePos": "top-right"
+        },
+        {
+          "photo": "photos/2016-08.jpg",
+          "bubble": "Showcase our product!",
+          "bubblePos": "bottom-right"
+        },
+        {
+          "photo": "photos/2016-09.jpg",
+          "bubble": "Cooking for the entire Baba Team!",
+          "bubblePos": "top-left"
         }
       ]
     },
@@ -93,23 +104,43 @@
       "panels": [
         {
           "photo": "photos/2017-01.jpg",
-          "bubble": "2017. The first players arrive. We watch every single session.",
+          "bubble": "2017. Launching our second game, Baba Wild Slots to the world!",
           "bubblePos": "top-left"
         },
         {
           "photo": "photos/2017-02.jpg",
-          "bubble": "\"Someone in Texas just hit the jackpot!\"",
+          "bubble": "\"Moving to our first Baba office!\"",
           "bubblePos": "top-right"
         },
         {
           "photo": "photos/2017-03.jpg",
-          "bubble": "The team doubles. The pizza orders triple.",
+          "bubble": "\"WOW!!!\"",
           "bubblePos": "bottom-right"
         },
         {
           "photo": "photos/2017-04.jpg",
           "bubble": "We learned fast: ship, listen, fix, repeat.",
           "bubblePos": "top-left"
+        },
+        {
+          "photo": "photos/2017-05.jpg",
+          "bubble": "Weekend session, we never stop!",
+          "bubblePos": "top-left"
+        },
+        {
+          "photo": "photos/2017-06.jpg",
+          "bubble": "Monetization anyone?\n",
+          "bubblePos": "top-right"
+        },
+        {
+          "photo": "photos/2017-07.jpg",
+          "bubble": "First big slot-machine development",
+          "bubblePos": "bottom-left"
+        },
+        {
+          "photo": "photos/2017-08.jpg",
+          "bubble": "BWS getting new lobby!! already?",
+          "bubblePos": "bottom-right"
         }
       ]
     },
@@ -120,12 +151,12 @@
       "panels": [
         {
           "photo": "photos/2018-01.jpg",
-          "bubble": "2018. Wild Slots goes wild. The office gets loud.",
+          "bubble": "2018. Baba Wild Slots goes mobile! The office gets loud.",
           "bubblePos": "top-left"
         },
         {
           "photo": "photos/2018-02.jpg",
-          "bubble": "\"DIN DONG — new feature just went live!\"",
+          "bubble": "\"DIN DONG — new game just went live!\"",
           "bubblePos": "top-right"
         },
         {
@@ -135,8 +166,28 @@
         },
         {
           "photo": "photos/2018-04.jpg",
-          "bubble": "Our first big company trip. Nobody slept.",
+          "bubble": "Our first big company Purim. Starting to feel a bit crazy!",
           "bubblePos": "top-right"
+        },
+        {
+          "photo": "photos/2018-05.jpg",
+          "bubble": "Baba Wild Slots in on the MAP!",
+          "bubblePos": "top-left"
+        },
+        {
+          "photo": "photos/2018-06.jpg",
+          "bubble": "A new star has born! 777 Burning Hot!! Our best slots to date!",
+          "bubblePos": "top-right"
+        },
+        {
+          "photo": "photos/2018-07.jpg",
+          "bubble": "New Tickets! On our state-of-the-art ticket system!  (No AI !! REALLY!)",
+          "bubblePos": "bottom-left"
+        },
+        {
+          "photo": "photos/2018-08.jpg",
+          "bubble": "Already hard at work, developing the tickets.",
+          "bubblePos": "bottom-right"
         }
       ]
     },
