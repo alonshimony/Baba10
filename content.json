@@ -391,6 +391,11 @@
           "photo": "photos/2022-08.jpg",
           "bubble": "We must compete in a league by now!",
           "bubblePos": "bottom-right"
+        },
+        {
+          "photo": "photos/2022-09.jpg",
+          "bubble": "Baba Avatars are coming!",
+          "bubblePos": "bottom-right"
         }
       ]
     },
@@ -401,22 +406,47 @@
       "panels": [
         {
           "photo": "photos/2023-01.jpg",
-          "bubble": "2023. New genres, new worlds, new bets on ourselves.",
+          "bubble": "2023. New genres, new worlds, new bets on ourselves. \nStarting the year with Celebration!",
           "bubblePos": "top-left"
         },
         {
           "photo": "photos/2023-02.jpg",
-          "bubble": "\"What if we tried something nobody expects?\"",
+          "bubble": "\"What if we tried something nobody expects?  CSI Baba!",
           "bubblePos": "top-right"
         },
         {
           "photo": "photos/2023-03.jpg",
-          "bubble": "Prototypes everywhere. Some glorious. Some... educational.",
+          "bubble": "The Baba family, stronger through everything. Even through Dror dressing as a... What is it exactly?",
           "bubblePos": "bottom-right"
         },
         {
           "photo": "photos/2023-04.jpg",
-          "bubble": "The Baba family — stronger through everything.",
+          "bubble": "Keep delivering fresh Meta games on top of our best slots!",
+          "bubblePos": "top-left"
+        },
+        {
+          "photo": "photos/2023-05.jpg",
+          "bubble": "Releasing amazing new game!",
+          "bubblePos": "top-left"
+        },
+        {
+          "photo": "photos/2023-06.jpg",
+          "bubble": "And another...",
+          "bubblePos": "top-right"
+        },
+        {
+          "photo": "photos/2023-07.jpg",
+          "bubble": "Another, a true and refined gaming factory!",
+          "bubblePos": "bottom-left"
+        },
+        {
+          "photo": "photos/2023-08.jpg",
+          "bubble": "Learning from each other every time... in the Baba way!",
+          "bubblePos": "bottom-right"
+        },
+        {
+          "photo": "photos/2023-09.jpg",
+          "bubble": "Let the MANIA START !! Developing a new casual game called Match Mania!",
           "bubblePos": "top-left"
         }
       ]
