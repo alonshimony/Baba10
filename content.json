@@ -198,23 +198,33 @@
       "panels": [
         {
           "photo": "photos/2019-01.jpg",
-          "bubble": "2019. Millions of spins a day. We level up everything.",
+          "bubble": "2019. Millions of spins a day. We level up everything. Including a brand new Office!!",
           "bubblePos": "top-left"
         },
         {
           "photo": "photos/2019-02.jpg",
-          "bubble": "\"Let's redesign the lobby. Again.\"",
+          "bubble": "\"Expanding the Babas clan! Oh Boy, They are working hard!\"",
           "bubblePos": "top-right"
         },
         {
           "photo": "photos/2019-03.jpg",
-          "bubble": "The art team outdoes itself. Every. Single. Sprint.",
+          "bubble": "\"And expanding a bit more! and again, working hard :)\"",
           "bubblePos": "bottom-right"
         },
         {
           "photo": "photos/2019-04.jpg",
-          "bubble": "Hackathon week — the best ideas came after midnight.",
+          "bubble": "DING DING! New feature going live!",
           "bubblePos": "top-left"
+        },
+        {
+          "photo": "photos/2019-05.jpg",
+          "bubble": "And another... starting fully work on our gamification layer",
+          "bubblePos": "top-left"
+        },
+        {
+          "photo": "photos/2019-06.jpg",
+          "bubble": "Keep the games rolling...",
+          "bubblePos": "top-right"
         }
       ]
     },
@@ -225,23 +235,43 @@
       "panels": [
         {
           "photo": "photos/2020-01.jpg",
-          "bubble": "2020. The world stays home. So do we — but the games never stop.",
+          "bubble": "2020. A new year, and again, a new and bigger office!",
           "bubblePos": "top-left"
         },
         {
           "photo": "photos/2020-02.jpg",
-          "bubble": "\"Can everyone hear me? You're on mute. YOU'RE ON MUTE.\"",
+          "bubble": "Babas approve the new office and..",
           "bubblePos": "top-right"
         },
         {
           "photo": "photos/2020-03.jpg",
-          "bubble": "Zoom happy hours, home-office cats, and record numbers.",
+          "bubble": "Went straight to work!",
           "bubblePos": "bottom-left"
         },
         {
           "photo": "photos/2020-04.jpg",
-          "bubble": "Apart, but more together than ever.",
+          "bubble": "Rolling out new games",
+          "bubblePos": "bottom-right"
+        },
+        {
+          "photo": "photos/2020-05.jpg",
+          "bubble": "Corona Virus?  That will never stop Babas!",
           "bubblePos": "top-right"
+        },
+        {
+          "photo": "photos/2020-06.jpg",
+          "bubble": "It only made us Crazy for big wins!",
+          "bubblePos": "top-left"
+        },
+        {
+          "photo": "photos/2020-07.jpg",
+          "bubble": "Never Stop Celebrating!",
+          "bubblePos": "top-right"
+        },
+        {
+          "photo": "photos/2020-08.jpg",
+          "bubble": "Creating new games, and doing proper QA on them :)",
+          "bubblePos": "bottom-left"
         }
       ]
     },
