@@ -48,7 +48,7 @@
   "years": [
     {
       "year": 2016,
-      "label": "YEAR 1",
+      "label": "YEAR 0",
       "title": "The Beginning",
       "panels": [
         {
@@ -100,7 +100,7 @@
     },
     {
       "year": 2017,
-      "label": "YEAR 2",
+      "label": "YEAR 1",
       "title": "First Spins",
       "panels": [
         {
@@ -147,7 +147,7 @@
     },
     {
       "year": 2018,
-      "label": "YEAR 3",
+      "label": "YEAR 2",
       "title": "Going Wild",
       "panels": [
         {
@@ -194,7 +194,7 @@
     },
     {
       "year": 2019,
-      "label": "YEAR 4",
+      "label": "YEAR 3",
       "title": "Leveling Up",
       "panels": [
         {
@@ -246,7 +246,7 @@
     },
     {
       "year": 2020,
-      "label": "YEAR 5",
+      "label": "YEAR 4",
       "title": "Apart, Together",
       "panels": [
         {
@@ -298,7 +298,7 @@
     },
     {
       "year": 2021,
-      "label": "YEAR 6",
+      "label": "YEAR 5",
       "title": "The Comeback",
       "panels": [
         {
@@ -350,7 +350,7 @@
     },
     {
       "year": 2022,
-      "label": "YEAR 7",
+      "label": "YEAR 6",
       "title": "Big League",
       "panels": [
         {
@@ -402,7 +402,7 @@
     },
     {
       "year": 2023,
-      "label": "YEAR 8",
+      "label": "YEAR 7",
       "title": "New Worlds",
       "panels": [
         {
@@ -469,7 +469,7 @@
     },
     {
       "year": 2024,
-      "label": "YEAR 9",
+      "label": "YEAR 8",
       "title": "Full Throttle",
       "panels": [
         {
@@ -521,8 +521,8 @@
     },
     {
       "year": 2025,
-      "label": "YEAR 10",
-      "title": "Ten Years Strong",
+      "label": "YEAR 9",
+      "title": "Baba to the Moon!",
       "panels": [
         {
           "photo": "photos/2025-01.jpg",
