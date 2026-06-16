@@ -7,7 +7,7 @@
   <meta name="robots" content="noindex" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Patrick+Hand&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Bangers&family=Caveat:wght@400;700&family=Comic+Neue:wght@400;700&family=Patrick+Hand&family=Shantell+Sans&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
   <style>
     :root {
       --ink: #1c1f2e;
@@ -129,7 +129,8 @@
       border: 1px solid var(--line);
       border-radius: 6px;
       color: #d9ecf2;
-      font: 400 0.92rem "Patrick Hand", cursive;
+      font-size: 0.98rem; font-weight: 400;
+      font-family: var(--setup-bubble, "Patrick Hand", cursive);
       padding: 7px 9px;
       resize: vertical;
       min-height: 52px;
@@ -285,6 +286,17 @@
       <div class="set-block">
         <label class="set-cap">Photo style</label>
         <label class="loop-check"><input type="checkbox" id="colorChk" /> show in color</label>
+      </div>
+      <div class="set-block">
+        <label class="set-cap" for="fontSel">Bubble font</label>
+        <select id="fontSel">
+          <option value="patrick-hand">Patrick Hand — handwritten</option>
+          <option value="comic-neue">Comic Neue — comic</option>
+          <option value="caveat">Caveat — casual</option>
+          <option value="shantell">Shantell Sans — marker</option>
+          <option value="bangers">Bangers — bold caps</option>
+          <option value="grotesk">Space Grotesk — clean</option>
+        </select>
       </div>
     </div>
 

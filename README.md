@@ -35,6 +35,8 @@ Open **`setup.html`** through the local server (e.g. `http://localhost:4173/setu
 - **Photo style**: "show in color" displays photos in full color instead of the default
   black-&-white comic look (applies everywhere — panels, recap pages, the album). Saved as
   `brand.colorPhotos`.
+- **Bubble font**: pick the speech-bubble font (Patrick Hand, Comic Neue, Caveat, Shantell Sans,
+  Bangers, or Space Grotesk). The bubble text boxes preview it live. Saved as `brand.bubbleFont`.
 
 On phones, the finale album shows **one page at a time** (tap right to turn the page, left to go back)
 instead of the desktop two-page spread.

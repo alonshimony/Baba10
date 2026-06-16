@@ -28,6 +28,18 @@
   // background-music state (a new mp3 the user dropped, not yet saved)
   let musicBlob = null, musicPath = "", musicSaved = false;
 
+  // bubble-font choices (must match the player's BUBBLE_FONTS map)
+  const BUBBLE_FONTS = {
+    "patrick-hand": "'Patrick Hand', cursive",
+    "comic-neue": "'Comic Neue', cursive",
+    "caveat": "'Caveat', cursive",
+    "shantell": "'Shantell Sans', cursive",
+    "bangers": "'Bangers', system-ui, cursive",
+    "grotesk": "'Space Grotesk', sans-serif",
+  };
+  const applyBubbleFont = (key) =>
+    document.documentElement.style.setProperty("--setup-bubble", BUBBLE_FONTS[key] || BUBBLE_FONTS["patrick-hand"]);
+
   function status(msg, err) {
     $status.textContent = msg;
     $status.classList.toggle("err", !!err);
@@ -194,6 +206,7 @@
     out.brand.musicVolume = (DATA.brand.musicVolume >= 0 && DATA.brand.musicVolume <= 1)
       ? +DATA.brand.musicVolume : 0.6;
     out.brand.colorPhotos = !!DATA.brand.colorPhotos;
+    out.brand.bubbleFont = DATA.brand.bubbleFont || "patrick-hand";
     out.autoplay = out.autoplay || {};
     out.autoplay.speed = +DATA.autoplay.speed || 1;
     out.autoplay.loop = DATA.autoplay.loop !== false;
@@ -486,6 +499,12 @@
     $color.checked = !!DATA.brand.colorPhotos;
     DATA.brand.colorPhotos = $color.checked;
 
+    const $font = document.getElementById("fontSel");
+    const fkey = DATA.brand.bubbleFont || "patrick-hand";
+    $font.value = [...$font.options].some((o) => o.value === fkey) ? fkey : "patrick-hand";
+    DATA.brand.bubbleFont = $font.value;
+    applyBubbleFont($font.value);
+
     let vol = +DATA.brand.musicVolume;
     if (!(vol >= 0 && vol <= 1)) vol = 0.6;
     DATA.brand.musicVolume = vol;
@@ -582,6 +601,17 @@
     $color.checked = !!DATA.brand.colorPhotos;
     DATA.brand.colorPhotos = $color.checked;
     $color.addEventListener("change", () => (DATA.brand.colorPhotos = $color.checked));
+
+    // speech-bubble font (live-previews in the bubble text boxes)
+    const $font = document.getElementById("fontSel");
+    const key = DATA.brand.bubbleFont || "patrick-hand";
+    $font.value = [...$font.options].some((o) => o.value === key) ? key : "patrick-hand";
+    DATA.brand.bubbleFont = $font.value;
+    applyBubbleFont($font.value);
+    $font.addEventListener("change", () => {
+      DATA.brand.bubbleFont = $font.value;
+      applyBubbleFont($font.value);
+    });
 
     const audioPick = document.createElement("input");
     audioPick.type = "file"; audioPick.accept = "audio/*"; audioPick.hidden = true;

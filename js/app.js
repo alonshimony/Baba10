@@ -14,6 +14,20 @@
   // photos render in B&W comic style by default; the setup page can switch them to full color
   document.documentElement.classList.toggle("photos-color", !!(DATA.brand && DATA.brand.colorPhotos));
 
+  // speech-bubble font (chosen in the editor)
+  const BUBBLE_FONTS = {
+    "patrick-hand": "'Patrick Hand', cursive",
+    "comic-neue": "'Comic Neue', cursive",
+    "caveat": "'Caveat', cursive",
+    "shantell": "'Shantell Sans', cursive",
+    "bangers": "'Bangers', system-ui, cursive",
+    "grotesk": "'Space Grotesk', sans-serif",
+  };
+  {
+    const key = (DATA.brand && DATA.brand.bubbleFont) || "patrick-hand";
+    document.documentElement.style.setProperty("--font-bubble", BUBBLE_FONTS[key] || BUBBLE_FONTS["patrick-hand"]);
+  }
+
   /* -------------------- audio (tiny generative pad, no assets) -------------------- */
   const Sound = {
     ctx: null,
