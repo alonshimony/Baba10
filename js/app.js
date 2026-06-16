@@ -11,6 +11,9 @@
 
   const yearIndex = (y) => YEARS.findIndex((d) => d.year === Number(y));
 
+  // photos render in B&W comic style by default; the setup page can switch them to full color
+  document.documentElement.classList.toggle("photos-color", !!(DATA.brand && DATA.brand.colorPhotos));
+
   /* -------------------- audio (tiny generative pad, no assets) -------------------- */
   const Sound = {
     ctx: null,

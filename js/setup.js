@@ -193,6 +193,7 @@
     else out.brand.music = DATA.brand.music || "";     // kept / cleared
     out.brand.musicVolume = (DATA.brand.musicVolume >= 0 && DATA.brand.musicVolume <= 1)
       ? +DATA.brand.musicVolume : 0.6;
+    out.brand.colorPhotos = !!DATA.brand.colorPhotos;
     out.autoplay = out.autoplay || {};
     out.autoplay.speed = +DATA.autoplay.speed || 1;
     out.autoplay.loop = DATA.autoplay.loop !== false;
@@ -481,6 +482,10 @@
     $loop.checked = DATA.autoplay.loop !== false;
     DATA.autoplay.loop = $loop.checked;
 
+    const $color = document.getElementById("colorChk");
+    $color.checked = !!DATA.brand.colorPhotos;
+    DATA.brand.colorPhotos = $color.checked;
+
     let vol = +DATA.brand.musicVolume;
     if (!(vol >= 0 && vol <= 1)) vol = 0.6;
     DATA.brand.musicVolume = vol;
@@ -571,6 +576,12 @@
     $loop.checked = DATA.autoplay.loop !== false;
     DATA.autoplay.loop = $loop.checked;
     $loop.addEventListener("change", () => (DATA.autoplay.loop = $loop.checked));
+
+    // photos in color vs. the default B&W comic look
+    const $color = document.getElementById("colorChk");
+    $color.checked = !!DATA.brand.colorPhotos;
+    DATA.brand.colorPhotos = $color.checked;
+    $color.addEventListener("change", () => (DATA.brand.colorPhotos = $color.checked));
 
     const audioPick = document.createElement("input");
     audioPick.type = "file"; audioPick.accept = "audio/*"; audioPick.hidden = true;

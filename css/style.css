@@ -289,6 +289,8 @@ button { font: inherit; background: none; border: none; cursor: pointer; color: 
   object-fit: cover;
   filter: grayscale(1) contrast(1.06) brightness(1.02);
 }
+/* setup option: show photos in full color instead of the B&W comic look */
+.photos-color .panel-photo { filter: contrast(1.03) saturate(1.08) brightness(1.02); }
 
 /* placeholder shown until a real photo is dropped in /photos */
 .panel-placeholder {

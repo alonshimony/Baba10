@@ -32,6 +32,9 @@ Open **`setup.html`** through the local server (e.g. `http://localhost:4173/setu
   speed chip in the header to change it live; it's remembered for the session.
 - **Autoplay repeat**: "loop forever" (default on) replays the whole show endlessly for kiosks;
   turn it off to stop on the closed book at the end. Saved as `autoplay.loop`.
+- **Photo style**: "show in color" displays photos in full color instead of the default
+  black-&-white comic look (applies everywhere — panels, recap pages, the album). Saved as
+  `brand.colorPhotos`.
 
 On phones, the finale album shows **one page at a time** (tap right to turn the page, left to go back)
 instead of the desktop two-page spread.
