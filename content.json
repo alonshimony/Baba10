@@ -10,7 +10,8 @@
     "endYear": 2026,
     "music": "audio/track.mp3",
     "musicVolume": 0.35,
-    "colorPhotos": true
+    "colorPhotos": true,
+    "bubbleFont": "comic-neue"
   },
   "intro": {
     "soundHint": "enable sound for a better experience",
