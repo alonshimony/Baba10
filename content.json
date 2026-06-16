@@ -9,7 +9,8 @@
     "startYear": 2016,
     "endYear": 2026,
     "music": "audio/track.mp3",
-    "musicVolume": 0.35
+    "musicVolume": 0.35,
+    "colorPhotos": true
   },
   "intro": {
     "soundHint": "enable sound for a better experience",
