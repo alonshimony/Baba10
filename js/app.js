@@ -109,6 +109,22 @@
         if (this.routed === false && this.audio) this.audio.volume = this.volume;
       }
     },
+    // kiosk (#/play): turn sound on hands-free. Browsers block un-gestured audio, so if the
+    // context is blocked we retry on the very first user interaction (one tap and it's playing).
+    armForKiosk() {
+      this.setEnabled(true);
+      if (this.kioskArmed) return;
+      this.kioskArmed = true;
+      const kick = () => {
+        if (!this.enabled) return cleanup();
+        if (this.ctx && this.ctx.state === "suspended") this.ctx.resume();
+        if (this.audio && this.audio.paused) this.audio.play().catch(() => {});
+        if (!this.ctx || this.ctx.state === "running") cleanup();
+      };
+      const evs = ["pointerdown", "keydown", "touchstart", "click", "mousemove"];
+      const cleanup = () => { this.kioskArmed = false; evs.forEach((e) => window.removeEventListener(e, kick)); };
+      evs.forEach((e) => window.addEventListener(e, kick, { passive: true }));
+    },
     blip(freq = 660) {
       if (!this.enabled || !this.ctx) return;
       const o = this.ctx.createOscillator();
@@ -350,8 +366,8 @@
       else {
         prog.textContent = esc(DATA.intro.loaderNote);
         intro.classList.add("ready");
-        // kiosk mode: open the book by itself (muted — browsers block un-clicked audio)
-        if (Auto.on) setTimeout(() => finish(false), 1000);
+        // kiosk mode: open the book by itself; turn sound on if a track is set
+        if (Auto.on) setTimeout(() => finish(Sound.hasMusic()), 1000);
       }
     })(t0);
 
@@ -361,7 +377,10 @@
       finished = true;
       cancelAnimationFrame(raf);
       sessionStorage.setItem("baba10-intro", "1");
-      Sound.setEnabled(withSound);
+      // in kiosk mode the book opens on a timer (no gesture) — arm sound so it starts
+      // automatically when allowed, or on the first interaction otherwise
+      if (withSound && Auto.on) Sound.armForKiosk();
+      else Sound.setEnabled(withSound);
 
       // open the book: cover swings, confetti pops, then we dive into year 1
       book.classList.add("open");
@@ -916,9 +935,10 @@
     app.innerHTML = "";
     const h = location.hash || "#/years";
 
-    // #/play → kiosk mode from year 1
+    // #/play → kiosk mode from year 1 (auto-enable sound if a track is set)
     if (h.startsWith("#/play")) {
       Auto.enable();
+      if (Sound.hasMusic()) Sound.armForKiosk();
       location.hash = "#/year/" + YEARS[0].year;
       return;
     }
@@ -949,7 +969,10 @@
   window.addEventListener("hashchange", route);
 
   // ?play in the URL also starts kiosk mode (handy for big-screen bookmarks)
-  if (new URLSearchParams(location.search).has("play")) Auto.enable();
+  if (new URLSearchParams(location.search).has("play")) {
+    Auto.enable();
+    if (Sound.hasMusic()) Sound.armForKiosk();
+  }
 
   if (introDone) {
     route();
